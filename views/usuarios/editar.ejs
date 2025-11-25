@@ -1,0 +1,54 @@
+<%- include('../includes/header.ejs', { titulo: 'Editar usuario' }) %>
+
+<main class="p-4 md:p-6 bg-neutra-50 min-h-screen flex flex-col items-center justify-center">
+  <div class="bg-white rounded-xl shadow-lg p-6 w-full max-w-md border border-gray-200">
+    <h2 class="text-2xl font-semibold text-sistema-700 mb-6 text-center">Editar usuario</h2>
+
+    <form action="/usuarios/<%= usuarios.id_usuario %>/editar" method="POST" class="flex flex-col gap-4">
+     
+      <div>
+        <label for="nome" class="block text-sm font-medium text-gray-700 mb-1">Nome do Usuario</label>
+        <input
+          type="text"
+          id="nome"
+          name="nome"
+          value="<%= usuarios.nome %>"
+          required
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-sistema-500 focus:border-sistema-500 outline-none"
+        />
+      </div>
+
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+        <input
+          type="text"
+          id="email"
+          name="email"
+          value="<%= usuarios.email %>"
+          required
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-sistema-500 focus:border-sistema-500 outline-none"
+        />
+      </div>
+
+      <div>
+        <label for="senha" class="block text-sm font-medium text-gray-700 mb-1">Senha</label>
+        <input
+          type="password"
+          id="senha"
+          name="senha"
+          placeholder="Digite para alterar (opcional)"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-sistema-500 focus:border-sistema-500 outline-none">
+        </input>
+      </div>
+
+      <div class="flex justify-end gap-3 mt-4">
+        <a href="/usuarios"
+          class="px-4 py-2 rounded-md bg-gray-400 text-white hover:bg-gray-500 transition">Cancelar</a>
+        <button type="submit"
+          class="px-4 py-2 rounded-md bg-green-600 text-white transition">Salvar</button>
+      </div>
+    </form>
+  </div>
+</main>
+
+<%- include('../includes/footer.ejs') %>

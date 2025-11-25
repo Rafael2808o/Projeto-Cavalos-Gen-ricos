@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistema - <%= titulo %></title>
+
+  <!-- Twind com configuração personalizada -->
+  <script type="module" src="/js/twind-setup.js"></script>
+  <script src="https://cdn.twind.style"></script>
+</head>
+
+<body class="bg-neutra-50">
+
+  <!-- Header com degradê vermelho -->
+  <header class="bg-green-700 from-sistema-700 via-sistema-700 to-sistema-500 text-white shadow-md border-b border-white/30">
+    <div class="max-w-7xl mx-auto px-6 py-3">
+
+      <!-- Linha 1: título fixo -->
+      <div class="flex items-center justify-start">
+        <h1 class="text-2xl font-bold tracking-wide">Sistema Administrativo</h1>
+      </div>
+
+      <!-- Linha 2: título da página + menu fixo -->
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-2">
+
+        <!-- Título dinâmico -->
+        <h2 class="text-base sm:text-lg font-semibold text-sistema-50 drop-shadow-sm text-center sm:text-left">
+       
+        </h2>
+
+        <!-- Menu sempre visível -->
+        <nav class="flex items-center gap-4 text-sm tracking-wide mt-2 sm:mt-0">
+          <a href="/usuarios/" class="hover:text-sistema-200 transition">Usuarios</a>
+          <span class="opacity-70">|</span>
+          <a href="/produtos/" class="hover:text-sistema-200 transition">Produtos</a>
+          <span class="opacity-70">|</span>
+          <a href="/categorias/" class="hover:text-sistema-200 transition">Categorias</a>
+          <span class="opacity-70">|</span>
+          <a href="/admin" class="hover:text-sistema-200 transition">Sair</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+</body>
+</html>

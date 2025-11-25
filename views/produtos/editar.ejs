@@ -1,0 +1,139 @@
+<%- include('../includes/header.ejs', { titulo: 'Editar Produto' }) %>
+
+<main class="p-6 bg-gray-100 min-h-screen flex flex-col items-center">
+  <div class="bg-white w-full max-w-lg rounded-2xl shadow-md p-6">
+   
+    <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">
+      ✏️ Editar Suplemento Equino
+    </h1>
+
+    <form action="/produtos/<%= produto.id_produto %>/editar" method="POST" class="space-y-5">
+
+      <!-- Nome -->
+      <div>
+        <label for="nome" class="block text-gray-700 font-medium">Nome do Produto</label>
+        <input
+          type="text"
+          id="nome"
+          name="nome"
+          value="<%= produto.nome %>"
+          class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-green-500"
+          required
+        />
+      </div>
+
+      <!-- Descrição -->
+      <div>
+        <label for="descricao" class="block text-gray-700 font-medium">Descrição</label>
+        <textarea
+          id="descricao"
+          name="descricao"
+          rows="3"
+          class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-green-500"
+        ><%= produto.descricao %></textarea>
+      </div>
+
+      <!-- Categoria -->
+      <div>
+        <label for="id_categoria" class="block text-gray-700 font-medium">Categoria</label>
+
+        <select
+          id="id_categoria"
+          name="id_categoria"
+          class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-green-500"
+          required
+        >
+          <option value="1" <%= produto.id_categoria == 1 ? 'selected' : '' %>>Vitaminas e Minerais</option>
+          <option value="2" <%= produto.id_categoria == 2 ? 'selected' : '' %>>Suplementos Proteicos</option>
+          <option value="3" <%= produto.id_categoria == 3 ? 'selected' : '' %>>Energéticos e Desempenho</option>
+          <option value="4" <%= produto.id_categoria == 4 ? 'selected' : '' %>>Saúde das Articulações</option>
+        </select>
+      </div>
+
+      <!-- Valor Custo -->
+      <div>
+        <label for="valor_custo" class="block text-gray-700 font-medium">Preço (R$)</label>
+        <input
+          type="number"
+          step="0.01"
+          id="valor_custo"
+          name="valor_custo"
+          value="<%= produto.valor_custo %>"
+          class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-green-500"
+          required
+        />
+      </div>
+
+      <!-- Estoque Mínimo -->
+      <div>
+        <label for="estoque_minimo" class="block text-gray-700 font-medium">Estoque Mínimo</label>
+        <input
+          type="number"
+          id="estoque_minimo"
+          name="estoque_minimo"
+          value="<%= produto.estoque_minimo %>"
+          class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-green-500"
+          required
+        />
+      </div>
+
+      <!-- Quantidade -->
+      <div>
+        <label for="quantidade" class="block text-gray-700 font-medium">Quantidade</label>
+        <input
+          type="number"
+          id="quantidade"
+          name="quantidade"
+          value="<%= produto.quantidade %>"
+          class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-green-500"
+          required
+        />
+      </div>
+
+      <!-- Data Cadastro -->
+      <div>
+        <label for="data_cadastro" class="block text-gray-700 font-medium">Data Cadastro</label>
+        <input
+          type="date"
+          id="data_cadastro"
+          name="data_cadastro"
+          value="<%= produto.data_cadastro.toISOString().substring(0,10) %>"
+          class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-green-500"
+          required
+        />
+      </div>
+
+      <!-- Imagem -->
+      <div>
+        <label for="imagem" class="block text-gray-700 font-medium">Link da Imagem</label>
+        <input
+          type="text"
+          id="imagem"
+          name="imagem"
+          value="<%= produto.imagem %>"
+          class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-green-500"
+          required
+        />
+      </div>
+
+      <!-- Botões -->
+      <div class="pt-4 flex justify-between">
+        <a
+          href="/produtos"
+          class="px-4 py-2 rounded-lg bg-gray-300 hover:bg-gray-400 transition"
+        >
+          Voltar
+        </a>
+
+        <button
+          type="submit"
+          class="px-6 py-2 bg-green-600 text-white font-medium rounded-lg transition"
+        >
+          Salvar Alterações
+        </button>
+      </div>
+    </form>
+  </div>
+</main>
+
+<%- include('../includes/footer.ejs') %>

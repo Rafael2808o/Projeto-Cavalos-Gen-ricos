@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cavalos Genéricos | Suplementos Premium para Equinos</title>
+  <script type="module" src="/js/twind-setup.js"></script>
+  <script src="https://cdn.twind.style"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    dialog::backdrop { background: rgba(0, 0, 0, 0.6); }
+    .animate-bounceIn {
+      animation: bounceIn 0.6s ease-out;
+    }
+    @keyframes bounceIn {
+      0% { transform: scale(0.3); opacity: 0; }
+      50% { transform: scale(1.05); }
+      70% { transform: scale(0.9); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800 leading-relaxed">
+
+  <!-- HEADER (mantido exatamente como você enviou) -->
+  <header class="fixed top-0 w-full bg-white/95 backdrop-blur-sm shadow-md z-50 transition-all duration-300">
+    <div class="container mx-auto flex justify-between items-center px-6 py-4">
+      <a href="/" class="flex items-center gap-2 text-2xl font-bold text-primary">
+        <img src="img/F.png" class="w-12">
+        <span>Cavalos Genéricos</span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+        <a href="/" class="font-semibold hover:text-green-500 transition">Início</a>
+        <a href="#sobre" class="font-semibold hover:text-green-500 transition">Sobre</a>
+        <div class="relative group">
+          <button class="font-semibold flex items-center gap-1 hover:text-green-500 transition">
+            Produtos <i class="fas fa-chevron-down text-xs ml-1"></i>
+          </button>
+          <ul class="absolute top-full left-0 mt-2 w-48 bg-white rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+            <li><a href="/produtos/suplementos" class="font-semibold block px-5 py-3 hover:bg-green-500 hover:text-white rounded-t-xl">Suplementos</a></li>
+            <li><a href="#promocoes" class="font-semibold block px-5 py-3 hover:bg-green-500 hover:text-white rounded-b-xl">Promoções</a></li>
+          </ul>
+        </div>
+
+        <button type="button" onclick="document.getElementById('modalContato').showModal()"
+          class="bg-green-600 text-white px-6 py-2.5 rounded-full hover:bg-green-700 transition shadow-md flex items-center gap-2 text-sm font-medium">
+          <i class="fas fa-phone"></i> Contato
+        </button>
+        <a href="/admin/login" class="bg-green-600 text-white px-6 py-2.5 rounded-full hover:bg-green-700 transition shadow-md flex items-center gap-2 text-sm font-medium">
+          Login
+        </a>
+      </nav>
+
+      <button id="mobileMenuBtn" class="md:hidden text-green-600 text-3xl">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="hidden md:hidden bg-white shadow-lg absolute top-full left-0 w-full z-40">
+      <nav class="flex flex-col text-center font-medium text-lg">
+        <a href="/" class="py-4 border-b hover:bg-green-600 hover:text-white transition">Início</a>
+        <a href="#sobre" class="py-4 border-b hover:bg-green-600 hover:text-white transition">Sobre</a>
+        <a href="/produtos/suplementos" class="py-4 border-b hover:bg-green-600 hover:text-white transition">Suplementos</a>
+        <a href="#promocoes" class="py-4 border-b hover:bg-green-600 hover:text-white transition">Promoções</a>
+        <button onclick="document.getElementById('modalContato').showModal()"
+          class="py-4 bg-green-600 text-white hover:bg-green-700 transition">Fale Conosco</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="inicio" class="bg-[linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.6)),url('https://wallpapers.com/images/featured/cavalo-correndo-yb42lz5ezrmoh668.jpg')] bg-center bg-cover bg-no-repeat h-screen flex items-center justify-center text-center text-white">
+    <div class="container mx-auto px-6">
+      <h1 class="text-5xl md:text-6xl font-bold mb-4 leading-tight">
+        Força e Performance <br> para <span class="text-green-400">Campeões</span>
+      </h1>
+      <p class="text-lg md:text-xl mb-8 max-w-2xl mx-auto opacity-90">
+        Suplementos equinos de alta pureza, formulados por especialistas para maximizar saúde e desempenho.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="/produtos/suplementos" class="bg-green-600 text-white px-8 py-4 rounded-full font-bold hover:bg-green-700 transition shadow-lg text-lg">
+          Ver Suplementos
+        </a>
+        <button type="button" onclick="document.getElementById('modalContato').showModal()"
+          class="bg-white text-black px-8 py-4 rounded-full font-bold hover:bg-gray-200 transition shadow-lg text-lg">
+          Fale Conosco
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sobre -->
+  <section id="sobre" class="py-20 bg-white">
+    <div class="container mx-auto px-6 text-center max-w-4xl">
+      <h2 class="text-4xl font-bold text-green-700 mb-6">Sobre a Cavalos Genéricos</h2>
+      <p class="text-lg text-gray-600 leading-relaxed">
+        Há mais de uma década no mercado, a <strong class="text-green-700">Cavalos Genéricos</strong> é referência em suplementação equina de alta performance.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+        <div class="p-8 bg-green-50 rounded-2xl">
+          <i class="fas fa-flask text-4xl text-green-600 mb-4"></i>
+          <h3 class="font-bold text-xl">Fórmulas Científicas</h3>
+        </div>
+        <div class="p-8 bg-green-50 rounded-2xl">
+          <i class="fas fa-leaf text-4xl text-green-600 mb-4"></i>
+          <h3 class="font-bold text-xl">100% Natural</h3>
+        </div>
+        <div class="p-8 bg-green-50 rounded-2xl">
+          <i class="fas fa-shield-alt text-4xl text-green-600 mb-4"></i>
+          <h3 class="font-bold text-xl">Garantia de Qualidade</h3>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Suplementos -->
+  <section id="suplementos" class="py-20 bg-gray-50">
+    <div class="container mx-auto px-6">
+      <h2 class="text-4xl font-bold text-center text-primary mb-4">Nossos Suplementos</h2>
+      <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+        Produtos desenvolvidos para cada fase da vida do seu cavalo: crescimento, manutenção, competição e recuperação.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Produto 1 -->
+        <div
+          class="bg-white rounded-2xl shadow-lg overflow-hidden group cursor-pointer hover:shadow-2xl transition-all duration-300">
+          <div class="overflow-hidden">
+            <img
+              src="https://cdn.awsli.com.br/2500x2500/2643/2643862/produto/246956826/clenbuterol-500ml--2--6szdhiqu9c.jpg"
+              alt="Clenbuterol"
+              class=" w-full h-[100%] object-cover transition-transform duration-500 group-hover:scale-[1.08]">
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-primary mb-2">Clenbuterol Equino</h3>
+            <p class="text-gray-600 mb-4">Melhora a performance respiratória e a oxigenação muscular durante o treino.
+            </p>
+            <div class="flex items-center justify-between">
+              <span class="text-2xl font-bold text-accent">R$ 189,90</span>
+              <span class="bg-secondary text-primary text-xs font-bold px-3 py-1 rounded-full">Mais Vendido</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Produto 2 -->
+        <div
+          class="bg-white rounded-2xl shadow-lg overflow-hidden group cursor-pointer hover:shadow-2xl transition-all duration-300">
+          <div class="overflow-hidden">
+            <img src="https://http2.mlstatic.com/D_779109-MLA96897773040_112025-C.jpg" alt="Creatina Equina"
+              class="w-full h-[100%] object-cover transition-transform duration-500 group-hover:scale-[1.08]">
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-primary mb-2">Creatina Equina Turbo</h3>
+            <p class="text-gray-600 mb-4">Suplemento de força e potência muscular para cavalos atletas.</p>
+            <div class="flex items-center justify-between">
+              <span class="text-2xl font-bold text-accent">R$ 169,90</span>
+              <span class="bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full">Novo</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Produto 3 -->
+        <div
+          class="bg-white rounded-2xl shadow-lg overflow-hidden group cursor-pointer hover:shadow-2xl transition-all duration-300">
+          <div class="overflow-hidden">
+            <img
+              src="https://nutrifacil.com.br/wp-content/uploads/2024/03/nutrifacil-max-horse-suplemento-mineral-proteico-para-equinos-cavalo-de-alta-performance-saude-animal.png"
+              alt="Proteína Equina"
+              class="w-full h-[100%] object-cover transition-transform duration-500 group-hover:scale-[1.08]">
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-primary mb-2">Protein Horse Max</h3>
+            <p class="text-gray-600 mb-4">Mistura de aminoácidos essenciais para ganho de massa e recuperação muscular.
+            </p>
+            <div class="flex items-center justify-between">
+              <span class="text-2xl font-bold text-accent">R$ 149,90</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Promoções -->
+  <section id="promocoes" class="py-20 bg-green-800 text-white">
+    <div class="container mx-auto px-6 text-center">
+      <h2 class="text-4xl font-bold mb-4">Promoção Imperdível!</h2>
+      <p class="text-3xl mb-6">Compre 2 e leve o 3º <span class="text-yellow-400 font-bold">GRÁTIS</span></p>
+      <button class="bg-white text-green-800 px-10 py-4 rounded-full font-bold hover:bg-gray-100 transition text-xl shadow-lg">
+        <a href="/produtos/suplementos">
+          Aproveitar agora!
+        </a>
+      </button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-gray-300 py-12">
+    <div class="container mx-auto px-6 text-center">
+      <div class="flex justify-center gap-8 mb-6 text-3xl">
+        <a href="#" class="hover:text-white"><i class="fab fa-whatsapp"></i></a>
+        <a href="#" class="hover:text-white"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="hover:text-white"><i class="fab fa-facebook"></i></a>
+      </div>
+      <p>&copy; 2025 <strong class="text-white">Cavalos Genéricos</strong> — Todos os direitos reservados</p>
+      <p class="text-sm mt-2">Andradina-SP</p>
+    </div>
+  </footer>
+
+  <!-- MODAL DE CONTATO FUNCIONAL COM MENSAGEM ENVIADA -->
+  <dialog id="modalContato" class="w-full max-w-lg p-8 bg-white rounded-2xl shadow-2xl backdrop:bg-black/60">
+    <div class="flex justify-between items-center mb-8">
+      <h3 class="text-3xl font-bold text-gray-800">Fale Conosco</h3>
+      <button onclick="document.getElementById('modalContato').close()" class="text-4xl text-gray-500 hover:text-gray-800">&times;</button>
+    </div>
+
+    <form id="formContato" class="space-y-6">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Nome completo <span class="text-red-500">*</span></label>
+        <input type="text" name="nome" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-600 outline-none transition" placeholder="Seu nome">
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Telefone / WhatsApp <span class="text-red-500">*</span></label>
+        <input type="tel" name="telefone" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-600 outline-none transition" placeholder="(11) 98765-4321">
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Mensagem <span class="text-red-500">*</span></label>
+        <textarea name="mensagem" rows="5" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-600 outline-none transition resize-none" placeholder="Sua mensagem..."></textarea>
+      </div>
+
+      <div class="flex gap-4 justify-end pt-4">
+        <button type="button" onclick="document.getElementById('modalContato').close()"
+          class="px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium rounded-xl transition">
+          Cancelar
+        </button>
+        <button type="submit" id="btnEnviar"
+          class="px-8 py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl transition flex items-center gap-3 shadow-lg">
+          <span id="textoBotao">Enviar Mensagem</span>
+          <svg id="loadingSpinner" class="w-5 h-5 hidden animate-spin" viewBox="0 0 38 38" stroke="currentColor">
+            <g fill="none" fill-rule="evenodd">
+              <g transform="translate(1 1)" stroke-width="3">
+                <circle stroke-opacity=".3" cx="18" cy="18" r="17"/>
+                <path d="M36 18c0-9.94-8.06-18-18-18">
+                  <animateTransform attributeName="transform" type="rotate" from="0 18 18" to="360 18 18" dur="1s" repeatCount="indefinite"/>
+                </path>
+              </g>
+            </g>
+          </svg>
+        </button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Toast de Sucesso -->
+  <div id="toastSucesso" class="fixed inset-0 flex items-center justify-center z-[9999] pointer-events-none hidden">
+    <div class="bg-white rounded-2xl shadow-2xl p-8 flex items-center gap-5 animate-bounceIn max-w-md">
+      <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+        <svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7"/>
+        </svg>
+      </div>
+      <div>
+        <h4 class="text-2xl font-bold text-gray-800">Mensagem enviada!</h4>
+        <p class="text-gray-600">Entraremos em contato em breve pelo WhatsApp.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    // Mobile Menu
+    document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+      document.getElementById('mobileMenu').classList.toggle('hidden');
+    });
+
+    // Formulário com feedback de sucesso
+    const form = document.getElementById('formContato');
+    const btnEnviar = document.getElementById('btnEnviar');
+    const textoBotao = document.getElementById('textoBotao');
+    const loading = document.getElementById('loadingSpinner');
+    const toast = document.getElementById('toastSucesso');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // Loading
+      textoBotao.textContent = 'Enviando...';
+      loading.classList.remove('hidden');
+      btnEnviar.disabled = true;
+
+      // Simula envio (2 segundos)
+      setTimeout(() => {
+        // Sucesso
+        loading.classList.add('hidden');
+        toast.classList.remove('hidden');
+        document.getElementById('modalContato').close();
+        form.reset();
+
+        // Reseta botão e esconde toast
+        setTimeout(() => {
+          textoBotao.textContent = 'Enviar Mensagem';
+          btnEnviar.disabled = false;
+          toast.classList.add('hidden');
+        }, 4000);
+      }, 2000);
+    });
+  </script>
+</body>
+</html>
