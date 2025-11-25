@@ -1,5 +1,4 @@
-// twind-theme.js
-// Tema centralizado do projeto
+
 twind.install({
   theme: {
     extend: {
@@ -7,11 +6,10 @@ twind.install({
         sans: ['Inter', 'sans-serif'],
       },
       colors: {
-        // Cores simples originais
         primary: '#1A5D1A',
         secondary: '#E6F3E6',
         accent: '#F4A300',
-        // Verde Primária – principal (botões, headers, textos importantes)
+
         primaria: {
           50:  '#f0fdf4',
           100: '#dcfce7',
@@ -20,16 +18,15 @@ twind.install({
           400: '#4ade80',
           500: '#22c55e',
           600: '#16a34a',
-          700: '#1A5D1A',   // cor exata solicitada
+          700: '#1A5D1A',   
           800: '#166534',
           900: '#14532d',
         },
 
-        // Verde Secundária – claro (fundos suaves, badges, hover)
         secundaria: {
           50:  '#f8fdf9',
           100: '#f0fdf4',
-          200: '#E6F3E6',   // cor exata solicitada
+          200: '#E6F3E6',   
           300: '#d1f3d8',
           400: '#a8e6b8',
           500: '#7fd99b',
@@ -39,7 +36,6 @@ twind.install({
           900: '#37b657',
         },
 
-        // Amarelo Terciária – destaque (preços, badges, promoções)
         terciaria: {
           50:  '#fffbeb',
           100: '#fef3c7',
@@ -48,12 +44,11 @@ twind.install({
           400: '#fbbf24',
           500: '#f59e0b',
           600: '#d97706',
-          700: '#F4A300',   // cor exata solicitada
+          700: '#F4A300',   
           800: '#92400e',
           900: '#78350f',
         },
 
-        // Tons neutros – fundo e textos (mantidos para consistência)
         neutra: {
           50:  '#f4f4f9',
           100: '#e5e7eb',

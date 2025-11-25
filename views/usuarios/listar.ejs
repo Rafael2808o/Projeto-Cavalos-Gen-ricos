@@ -7,7 +7,6 @@
       </p>
       <% } %>
 
-        <!-- Grid de Cards -->
         <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <% for (let usuario of usuarios) { %>
             <div class="bg-white rounded-lg shadow-md p-4 flex flex-col justify-between border border-gray-200
@@ -26,7 +25,6 @@
               </div>
 
               <div class="flex justify-end gap-3 mt-3">
-                <!-- Editar -->
                 <form action="/usuarios/<%= usuario.id_usuario %>/editar" method="GET">
                   <button type="submit" title="Editar usuario"
                     class="bg-green-600 hover:bg-sucesso-700 text-white p-2 rounded-full shadow flex items-center justify-center transition-transform hover:scale-110">
@@ -34,7 +32,6 @@
                   </button>
                 </form>
 
-                <!-- Deletar -->
                 <form action="/usuarios/<%= usuario.id_usuario %>/deletar" method="POST"
                   onsubmit="return confirm('Deseja realmente excluir este usuario?')">
                   <button type="submit" title="Excluir usuario"
@@ -54,7 +51,6 @@
                 <% } %>
         </div>
 
-        <!-- FAB -->
         <a href="/usuarios/novo" aria-label="Adicionar usuario" title="Adicionar nova usuario" class="fixed right-6 bottom-24 md:bottom-8 z-50
             bg-green-500 w-14 h-14 rounded-full bg-gradient-to-b from-sistema-500 to-sistema-700 text-white
             flex items-center justify-center shadow-lg

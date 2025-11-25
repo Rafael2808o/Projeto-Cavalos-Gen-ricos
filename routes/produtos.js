@@ -1,10 +1,8 @@
-// routes/produtos.js
 import express from 'express';
 import BD from '../db.js';
 
 const router = express.Router();
 
-// LISTAR PRODUTOS
 router.get('/', async (req, res) => {
   try {
     const result = await BD.query('SELECT * FROM produtos ORDER BY nome');
@@ -15,12 +13,10 @@ router.get('/', async (req, res) => {
   }
 });
 
-// FORMULÁRIO DE CRIAÇÃO (GET)
 router.get('/novo', (req, res) => {
   res.render('produtos/criar');
 });
 
-// CRIAR PRODUTO (POST)
 router.post('/novo', async (req, res) => {
   const { nome, estoque_minimo, quantidade, valor_custo, descricao, data_cadastro, imagem, id_categoria } = req.body;
   console.log(nome, estoque_minimo, quantidade, valor_custo, descricao, data_cadastro, imagem, id_categoria);
@@ -39,7 +35,6 @@ router.post('/novo', async (req, res) => {
   }
 });
 
-// EDITAR PRODUTO (GET)
 router.get('/:id/editar', async (req, res) => {
   const { id } = req.params;
  
@@ -52,7 +47,6 @@ router.get('/:id/editar', async (req, res) => {
   }
 });
 
-// EDITAR PRODUTO (POST)
 router.post('/:id/editar', async (req, res) => {
   const { id } = req.params;
   const { nome, estoque_minimo, quantidade, valor_custo, descricao, data_cadastro, imagem, id_categoria } = req.body;
@@ -73,7 +67,6 @@ router.post('/:id/editar', async (req, res) => {
   }
 });
 
-// EXCLUIR PRODUTO
 router.post('/:id/deletar', async (req, res) => {
   const { id } = req.params;
 

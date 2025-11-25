@@ -9,7 +9,6 @@
 
     <form action="/produtos/<%= produto.id_produto %>/editar" method="POST" class="space-y-5">
 
-      <!-- Nome -->
       <div>
         <label for="nome" class="block text-gray-700 font-medium">Nome do Produto</label>
         <input
@@ -22,7 +21,7 @@
         />
       </div>
 
-      <!-- Descrição -->
+
       <div>
         <label for="descricao" class="block text-gray-700 font-medium">Descrição</label>
         <textarea
@@ -33,7 +32,7 @@
         ><%= produto.descricao %></textarea>
       </div>
 
-      <!-- Categoria -->
+
       <div>
         <label for="id_categoria" class="block text-gray-700 font-medium">Categoria</label>
 
@@ -50,7 +49,6 @@
         </select>
       </div>
 
-      <!-- Valor Custo -->
       <div>
         <label for="valor_custo" class="block text-gray-700 font-medium">Preço (R$)</label>
         <input
@@ -64,7 +62,6 @@
         />
       </div>
 
-      <!-- Estoque Mínimo -->
       <div>
         <label for="estoque_minimo" class="block text-gray-700 font-medium">Estoque Mínimo</label>
         <input
@@ -77,7 +74,7 @@
         />
       </div>
 
-      <!-- Quantidade -->
+
       <div>
         <label for="quantidade" class="block text-gray-700 font-medium">Quantidade</label>
         <input
@@ -90,7 +87,6 @@
         />
       </div>
 
-      <!-- Data Cadastro -->
       <div>
         <label for="data_cadastro" class="block text-gray-700 font-medium">Data Cadastro</label>
         <input
@@ -103,7 +99,7 @@
         />
       </div>
 
-      <!-- Imagem -->
+
       <div>
         <label for="imagem" class="block text-gray-700 font-medium">Link da Imagem</label>
         <input
@@ -116,7 +112,6 @@
         />
       </div>
 
-      <!-- Botões -->
       <div class="pt-4 flex justify-between">
         <a
           href="/produtos"

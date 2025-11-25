@@ -1,14 +1,10 @@
-// routes/empresa_cavalosRotas.js (ESM)
 import express from 'express';
 import BD from '../db.js';
 
 const router = express.Router();
 
-// Listar (R – Read)
-// GET /empresa_cavalos/
 router.get('/', async (req, res) => {
   try {
-    // Tabela
     const result = await BD.query('SELECT * FROM categorias ORDER BY nome_categoria');
     res.render('categorias/listar', { categorias: result.rows });
   } catch (erro) {
@@ -17,12 +13,10 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Criar (GET)
 router.get('/novo', (req, res) => {
   res.render('categorias/criar');
 });
 
-// Criar (POST)
 router.post('/novo', async (req, res) => {
   const { nome_categoria } = req.body;
   try {
@@ -34,7 +28,6 @@ router.post('/novo', async (req, res) => {
   }
 });
 
-// Editar (GET)
 router.get('/:id/editar', async (req, res) => {
   const { id } = req.params;
   try {
@@ -46,7 +39,6 @@ router.get('/:id/editar', async (req, res) => {
   }
 });
 
-// Editar (POST)
 router.post('/:id/editar', async (req, res) => {
   const { id } = req.params;
   const { nome_categoria } = req.body;
@@ -59,7 +51,6 @@ router.post('/:id/editar', async (req, res) => {
   }
 });
 
-// Excluir
 router.post('/:id/deletar', async (req, res) => {
   const { id } = req.params;
   try {

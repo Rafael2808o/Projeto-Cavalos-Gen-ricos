@@ -29,7 +29,6 @@
 
 <body class="bg-gray-50 text-gray-800 leading-relaxed">
 
-  <!-- HEADER (mantido exatamente como você enviou) -->
   <header class="fixed top-0 w-full bg-white/95 backdrop-blur-sm shadow-md z-50 transition-all duration-300">
     <div class="container mx-auto flex justify-between items-center px-6 py-4">
       <a href="/" class="flex items-center gap-2 text-2xl font-bold text-primary">
@@ -64,7 +63,6 @@
       </button>
     </div>
 
-    <!-- Mobile Menu -->
     <div id="mobileMenu" class="hidden md:hidden bg-white shadow-lg absolute top-full left-0 w-full z-40">
       <nav class="flex flex-col text-center font-medium text-lg">
         <a href="/" class="py-4 border-b hover:bg-green-600 hover:text-white transition">Início</a>
@@ -77,7 +75,6 @@
     </div>
   </header>
 
-  <!-- Hero Section -->
   <section id="inicio" class="bg-[linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.6)),url('https://wallpapers.com/images/featured/cavalo-correndo-yb42lz5ezrmoh668.jpg')] bg-center bg-cover bg-no-repeat h-screen flex items-center justify-center text-center text-white">
     <div class="container mx-auto px-6">
       <h1 class="text-5xl md:text-6xl font-bold mb-4 leading-tight">
@@ -98,7 +95,7 @@
     </div>
   </section>
 
-  <!-- Sobre -->
+
   <section id="sobre" class="py-20 bg-white">
     <div class="container mx-auto px-6 text-center max-w-4xl">
       <h2 class="text-4xl font-bold text-green-700 mb-6">Sobre a Cavalos Genéricos</h2>
@@ -122,7 +119,6 @@
     </div>
   </section>
 
-  <!-- Suplementos -->
   <section id="suplementos" class="py-20 bg-gray-50">
     <div class="container mx-auto px-6">
       <h2 class="text-4xl font-bold text-center text-primary mb-4">Nossos Suplementos</h2>
@@ -131,7 +127,6 @@
       </p>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <!-- Produto 1 -->
         <div
           class="bg-white rounded-2xl shadow-lg overflow-hidden group cursor-pointer hover:shadow-2xl transition-all duration-300">
           <div class="overflow-hidden">
@@ -151,7 +146,6 @@
           </div>
         </div>
 
-        <!-- Produto 2 -->
         <div
           class="bg-white rounded-2xl shadow-lg overflow-hidden group cursor-pointer hover:shadow-2xl transition-all duration-300">
           <div class="overflow-hidden">
@@ -168,7 +162,6 @@
           </div>
         </div>
 
-        <!-- Produto 3 -->
         <div
           class="bg-white rounded-2xl shadow-lg overflow-hidden group cursor-pointer hover:shadow-2xl transition-all duration-300">
           <div class="overflow-hidden">
@@ -190,7 +183,6 @@
     </div>
   </section>
 
-  <!-- Promoções -->
   <section id="promocoes" class="py-20 bg-green-800 text-white">
     <div class="container mx-auto px-6 text-center">
       <h2 class="text-4xl font-bold mb-4">Promoção Imperdível!</h2>
@@ -203,7 +195,6 @@
     </div>
   </section>
 
-  <!-- Footer -->
   <footer class="bg-gray-900 text-gray-300 py-12">
     <div class="container mx-auto px-6 text-center">
       <div class="flex justify-center gap-8 mb-6 text-3xl">
@@ -216,7 +207,6 @@
     </div>
   </footer>
 
-  <!-- MODAL DE CONTATO FUNCIONAL COM MENSAGEM ENVIADA -->
   <dialog id="modalContato" class="w-full max-w-lg p-8 bg-white rounded-2xl shadow-2xl backdrop:bg-black/60">
     <div class="flex justify-between items-center mb-8">
       <h3 class="text-3xl font-bold text-gray-800">Fale Conosco</h3>
@@ -260,7 +250,6 @@
     </form>
   </dialog>
 
-  <!-- Toast de Sucesso -->
   <div id="toastSucesso" class="fixed inset-0 flex items-center justify-center z-[9999] pointer-events-none hidden">
     <div class="bg-white rounded-2xl shadow-2xl p-8 flex items-center gap-5 animate-bounceIn max-w-md">
       <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
@@ -275,14 +264,13 @@
     </div>
   </div>
 
-  <!-- Scripts -->
+
   <script>
-    // Mobile Menu
     document.getElementById('mobileMenuBtn').addEventListener('click', () => {
       document.getElementById('mobileMenu').classList.toggle('hidden');
     });
 
-    // Formulário com feedback de sucesso
+
     const form = document.getElementById('formContato');
     const btnEnviar = document.getElementById('btnEnviar');
     const textoBotao = document.getElementById('textoBotao');
@@ -292,20 +280,17 @@
     form.addEventListener('submit', function(e) {
       e.preventDefault();
 
-      // Loading
       textoBotao.textContent = 'Enviando...';
       loading.classList.remove('hidden');
       btnEnviar.disabled = true;
 
-      // Simula envio (2 segundos)
+
       setTimeout(() => {
-        // Sucesso
         loading.classList.add('hidden');
         toast.classList.remove('hidden');
         document.getElementById('modalContato').close();
         form.reset();
 
-        // Reseta botão e esconde toast
         setTimeout(() => {
           textoBotao.textContent = 'Enviar Mensagem';
           btnEnviar.disabled = false;
