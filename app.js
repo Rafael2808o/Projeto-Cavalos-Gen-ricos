@@ -8,12 +8,13 @@ import adminRotas from './routes/admin.js';
 import categoriaRotas from './routes/categorias.js'
 import produtoRotas from './routes/produtos.js'
 import usuarioRotas from './routes/usuarios.js'
-
+import pgSession from 'connect-pg-simple';
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename);
 
 const app = express();
+const PgSession = pgSession(session)
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs')
@@ -23,13 +24,32 @@ app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 
 
-app.use(
-    session({
-        secret: "sesisenai",
-        resave: false,
-        saveUninitialized: false,
-    })
-);
+// app.use(
+//     session({
+//         secret: "sesisenai",
+//         resave: false,
+//         saveUninitialized: false,
+//     })
+// );
+
+app.set('trust proxy', 1) // trust first proxy
+app.use(session({
+  store: new PgSession({
+    conString: "postgres://postgres.hjaocdmjqkmukktcezbc:4nnBeSi1k0iJJSeB@aws-1-sa-east-1.pooler.supabase.com:6543/postgres",
+
+    tableName: 'session',
+
+
+  }),
+  secret: "sesisenai",
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+     maxAge: 1000 * 60 * 60 * 24, // 1 day
+     secure: true,
+     sameSite: 'none',
+  },
+}));
 
 
 app.get('/', (req, res) => res.render('landing/index'))
