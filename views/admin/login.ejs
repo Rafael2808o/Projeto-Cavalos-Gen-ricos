@@ -1,39 +1,187 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@twind/core@1.1.1/twind.umd.js"></script>
-    <title>Tela de Login</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login | Cavalos Genéricos</title>
+
+  <script src="https://cdn.twind.style" crossorigin></script>
+  <script type="module" src="/js/twind-setup.js"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --verde-cg: #00BF6F;
+    --verde-hover: #009e58;
+    --gold-1: #D4AF37;
+    --gold-2: #b99125;
+    --gold-3: #f7e27f;
+    --preto-cg: #1a1a1a;
+  }
+
+  body { font-family: 'Montserrat', sans-serif; }
+
+  .gold-shine {
+    background: linear-gradient(90deg, var(--gold-1), var(--gold-2), var(--gold-1));
+    background-size: 200%;
+    animation: shine 4s linear infinite;
+  }
+  @keyframes shine {
+    0% { background-position: 200% center; }
+    100% { background-position: -200% center; }
+  }
+
+
+  /* Telas até 480px (smartphones normais) */
+  @media (max-width: 480px) {
+    .card-responsive {
+      padding: 1.4rem !important;
+    }
+
+    h1 {
+      font-size: 1.9rem !important;
+    }
+
+    img.h-36 {
+      height: 6rem !important; /* reduz para não estourar */
+    }
+
+    input {
+      padding-top: 0.9rem !important;
+      padding-bottom: 0.9rem !important;
+    }
+
+    button {
+      padding-top: 1.1rem !important;
+      padding-bottom: 1.1rem !important;
+    }
+  }
+
+  /* Telas MUITO pequenas (até 380px) */
+  @media (max-width: 380px) {
+    .card-responsive {
+      padding: 1.1rem !important;
+    }
+
+    h1 {
+      font-size: 1.6rem !important;
+    }
+
+    img.h-36 {
+      height: 4.5rem !important;
+    }
+
+    p.text-gray-300 {
+      font-size: 0.75rem !important;
+    }
+
+    button span {
+      font-size: 0.9rem !important;
+    }
+  }
+
+  /* Ajuste para altura baixa (smartphones widescreen) */
+  @media (max-height: 700px) {
+    .card-responsive {
+      padding: 1.3rem !important;
+    }
+
+    img.h-36 {
+      height: 5rem !important;
+    }
+
+    h1 {
+      font-size: 1.7rem !important;
+    }
+  }
+</style>
+
 </head>
-<body class="bg-gray-100 flex items-center justify-center h-screen">
 
-    <div class="bg-white shadow-xl rounded-2xl p-8 w-full max-w-sm">
-        <h1 class="text-2xl font-bold text-center text-sistema-700 mb-6">Login</h1>
+<body class="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black flex items-center justify-center p-4 overflow-hidden relative">
 
-        <form action="/admin/login" method="POST" class="flex flex-col gap-4">
-            <div>
-                <label class="block text-sm font-semibold mb-1">Usuário</label>
-                <input type="text" name="usuario" required
-                       class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-sistema-600" />
+  <div class="absolute inset-0 opacity-25">
+    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black z-10"></div>
+    <img src="https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?auto=format&fit=crop&q=80" 
+         alt="Cavalo em movimento" class="w-full h-full object-cover">
+  </div>
+
+  <div class="relative z-20 w-full max-w-md">
+    <div class="backdrop-blur-xl bg-white/10 border border-white/20 rounded-3xl shadow-2xl overflow-hidden transform transition-all duration-500 hover:scale-[1.01] card-responsive">
+
+      <div class="bg-gradient-to-r from-black via-gray-900 to-black p-8 text-center border-b border-gold-1/40" style="border-bottom: 1px solid var(--gold-1)">
+        <img src="/img/F.png" alt="Cavalos Genéricos" class="h-36 mx-auto mb-4 drop-shadow-xl">
+
+        <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">
+          ÁREA RESTRITA
+        </h1>
+
+        <p class="text-gray-300 mt-2 text-sm font-medium">
+          Acesso exclusivo para equipe e revendedores
+        </p>
+      </div>
+
+      <div class="p-7 md:p-10">
+        <form action="/admin/login" method="POST" class="space-y-7">
+
+          <div>
+            <label class="block text-sm font-bold text-gold-1 mb-2 tracking-wide">Usuário</label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <svg class="w-5 h-5 text-gold-1/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14"></path>
+                </svg>
+              </div>
+
+              <input type="text" name="usuario" required autocomplete="username"
+                     class="w-full pl-12 pr-5 py-4 bg-white/10 border border-white/20 rounded-xl focus:ring-2 focus:ring-gold-1 focus:border-gold-1 text-white placeholder-gray-400 transition-all duration-300"
+                     placeholder="Seu usuário">
             </div>
+          </div>
 
-            <div>
-                <label class="block text-sm font-semibold mb-1">Senha</label>
-                <input type="password" name="senha" required
-                       class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-sistema-600" />
+          <div>
+            <label class="block text-sm font-bold text-gold-1 mb-2 tracking-wide">Senha</label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <svg class="w-5 h-5 text-gold-1/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0-2.67 2.24-4 5-4s5 1.33 5 4-2.24 4-5 4-5-1.33-5-4zM5 19h14"></path>
+                </svg>
+              </div>
+
+              <input type="password" name="senha" required autocomplete="current-password"
+                     class="w-full pl-12 pr-5 py-4 bg-white/10 border border-white/20 rounded-xl focus:ring-2 focus:ring-gold-1 focus:border-gold-1 text-white placeholder-gray-400 transition-all duration-300"
+                     placeholder="Sua senha">
             </div>
+          </div>
 
-            <button type="submit"
-                    class="bg-sistema-700 text-white py-2 rounded-lg hover:bg-sistema-600 transition">
-                Entrar
-            </button>
+          <% if (typeof mensagem !== 'undefined') { %>
+            <div class="bg-red-600/20 border border-red-400 text-red-300 px-5 py-4 rounded-xl text-center font-semibold animate-pulse">
+              <%= mensagem %>
+            </div>
+          <% } %>
 
-            <% if (typeof mensagem !== 'undefined') { %>
-                <p class="text-red-600 text-center text-sm mt-2"><%= mensagem %></p>
-            <% } %>
+          <button type="submit"
+                  class="w-full gold-shine text-black font-extrabold text-lg py-5 rounded-xl shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-3 group">
+            <span>ENTRAR NA ÁREA RESTRITA</span>
+            <svg class="w-6 h-6 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path>
+            </svg>
+          </button>
+
         </form>
+
+        <div class="mt-10 text-center">
+          <p class="text-xs text-gray-400">
+            © <%= new Date().getFullYear() %> Cavalos Genéricos — Todos os direitos reservados
+          </p>
+        </div>
+      </div>
     </div>
+  </div>
+
+  <div class="absolute top-10 left-5 w-48 h-48 rounded-full bg-gold-1/20 blur-3xl opacity-20 animate-pulse"></div>
+  <div class="absolute bottom-10 right-5 w-72 h-72 rounded-full bg-gold-1/20 blur-3xl opacity-20 animate-pulse delay-1000"></div>
 
 </body>
 </html>
