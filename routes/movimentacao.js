@@ -3,9 +3,6 @@ import BD from '../db.js';
 
 const router = express.Router();
 
-// ============================
-// Lista todas as movimentações
-// ============================
 router.get('/', async (req, res) => {
   const { busca, ordenar_por, direcao } = req.query;
 
@@ -60,9 +57,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// ============================
-// Abrir formulário de criação
-// ============================
+
 router.get('/criar', async (req, res) => {
   try {
     const produtos = await BD.query('SELECT id_produto, nome FROM produtos ORDER BY nome');
@@ -79,9 +74,7 @@ router.get('/criar', async (req, res) => {
   }
 });
 
-// ============================
-// Registrar nova movimentação
-// ============================
+
 router.post('/registrar', async (req, res) => {
   const { produto_id, tipo, quantidade, descricao } = req.body;
 
@@ -126,9 +119,7 @@ router.post('/registrar', async (req, res) => {
   }
 });
 
-// ============================
-// Abrir formulário de edição
-// ============================
+
 router.get('/editar/:id', async (req, res) => {
   const { id } = req.params;
 
@@ -157,9 +148,7 @@ router.get('/editar/:id', async (req, res) => {
   }
 });
 
-// ============================
-// Salvar edição da movimentação
-// ============================
+
 router.post('/editar/:id', async (req, res) => {
   const { id } = req.params;
   const { produto_id, tipo, quantidade, descricao } = req.body;
@@ -207,9 +196,7 @@ router.post('/editar/:id', async (req, res) => {
   }
 });
 
-// ============================
-// Excluir movimentação
-// ============================
+
 router.post('/deletar/:id', async (req, res) => {
   const { id } = req.params;
 

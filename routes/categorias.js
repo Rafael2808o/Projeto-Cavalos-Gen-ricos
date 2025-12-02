@@ -5,7 +5,6 @@ const router = express.Router();
 
 const ITENS_POR_PAGINA = 9;
 
-// Listar categorias (COM PAGINAÇÃO E BUSCA)
 router.get('/', async (req, res) => {
   try {
     let pagina = parseInt(req.query.pagina) || 1;
@@ -50,12 +49,10 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Formulário de criação
 router.get('/novo', (req, res) => {
   res.render('categorias/criar');
 });
 
-// Criar categoria
 router.post('/novo', async (req, res) => {
   const { nome_categoria, descricao } = req.body;
   try {
@@ -67,7 +64,6 @@ router.post('/novo', async (req, res) => {
   }
 });
 
-// Formulário de edição
 router.get('/:id/editar', async (req, res) => {
   const { id } = req.params;
   try {
@@ -79,7 +75,6 @@ router.get('/:id/editar', async (req, res) => {
   }
 });
 
-// Atualizar categoria
 router.post('/:id/editar', async (req, res) => {
   const { id } = req.params;
   const { nome_categoria, descricao } = req.body;
@@ -95,7 +90,7 @@ router.post('/:id/editar', async (req, res) => {
   }
 });
 
-// Deletar categoria
+
 router.post('/:id/deletar', async (req, res) => {
   const { id } = req.params;
   try {

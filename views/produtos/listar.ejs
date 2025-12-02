@@ -73,11 +73,11 @@
     <% } %>
   </div>
 
-  <!-- PAGINAÇÃO PEQUENA, BONITA E VISÍVEL (igual à de usuários) -->
+
   <% if (paginacao && paginacao.totalPaginas >= 1) { %>
     <div class="flex justify-center mt-10">
       <div class="inline-flex items-center gap-3 bg-white px-6 py-3 rounded-full shadow-lg border border-gray-300">
-        <!-- Anterior -->
+
         <% if (paginacao.paginaAtual > 1) { %>
           <a href="?pagina=<%= paginacao.paginaAtual - 1 %><%= busca ? '&busca=' + busca : '' %>"
              class="w-10 h-10 flex items-center justify-center rounded-full bg-sistema-100 text-sistema-700 font-bold hover:bg-sistema-200 transition">
@@ -87,12 +87,12 @@
           <span class="w-10 h-10 flex items-center justify-center rounded-full text-gray-400">←</span>
         <% } %>
 
-        <!-- Página atual / total -->
+
         <span class="text-lg font-bold text-gray-800">
           <%= paginacao.paginaAtual %> <span class="text-gray-500">de</span> <%= paginacao.totalPaginas %>
         </span>
 
-        <!-- Próximo -->
+
         <% if (paginacao.paginaAtual < paginacao.totalPaginas) { %>
           <a href="?pagina=<%= paginacao.paginaAtual + 1 %><%= busca ? '&busca=' + busca : '' %>"
              class="w-10 h-10 flex items-center justify-center rounded-full bg-sistema-100 text-sistema-700 font-bold hover:bg-sistema-200 transition">

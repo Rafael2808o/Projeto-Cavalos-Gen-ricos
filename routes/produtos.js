@@ -1,4 +1,3 @@
-// produtos.js
 import express from 'express';
 import BD from '../db.js';
 
@@ -6,7 +5,6 @@ const router = express.Router();
 
 const ITENS_POR_PAGINA = 9;
 
-// Listar produtos no painel admin (COM PAGINAÇÃO E BUSCA)
 router.get('/', async (req, res) => {
   try {
     let pagina = parseInt(req.query.pagina) || 1;
@@ -51,7 +49,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Rota pública para suplementos (mantida igual, sem paginação)
 router.get('/suplementos', async (req, res) => {
   try {
     const result = await BD.query('SELECT * FROM produtos ORDER BY nome');
@@ -62,7 +59,6 @@ router.get('/suplementos', async (req, res) => {
   }
 });
 
-// Criar produto - GET
 router.get('/novo', async (req, res) => {
   try {
     const categorias = await BD.query('SELECT * FROM categorias ORDER BY nome_categoria');
@@ -73,7 +69,6 @@ router.get('/novo', async (req, res) => {
   }
 });
 
-// Criar produto - POST
 router.post('/novo', async (req, res) => {
   const { nome, estoque_minimo, quantidade, valor_custo, descricao, data_cadastro, imagem, id_categoria } = req.body;
 
@@ -91,7 +86,6 @@ router.post('/novo', async (req, res) => {
   }
 });
 
-// Editar produto - GET
 router.get('/:id/editar', async (req, res) => {
   const { id } = req.params;
 
@@ -111,7 +105,6 @@ router.get('/:id/editar', async (req, res) => {
   }
 });
 
-// Editar produto - POST
 router.post('/:id/editar', async (req, res) => {
   const { id } = req.params;
   const { nome, estoque_minimo, quantidade, valor_custo, descricao, data_cadastro, imagem, id_categoria } = req.body;
@@ -131,7 +124,6 @@ router.post('/:id/editar', async (req, res) => {
   }
 });
 
-// Deletar produto
 router.post('/:id/deletar', async (req, res) => {
   const { id } = req.params;
   try {
