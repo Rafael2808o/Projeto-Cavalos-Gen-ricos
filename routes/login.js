@@ -14,40 +14,43 @@ router.post('/login', async (req, res) => {
             'SELECT * FROM usuarios WHERE email = $1 AND senha = $2 AND ativo = true',
             [usuario, senha]
         );
-       
+
         if(buscaDados.rows.length > 0){
             const user = buscaDados.rows[0];
 
             if (!user.ativo) {
                 return res.render("admin/login", {
-                    mensagem: `Usuário inativo.
-                    Contate o administrador`,
+                    mensagem: `Usuário inativo. Contate o administrador`,
                 });
             }
-           
-            req.session.usuarioLogado = user.email;
-            req.session.nomeUsuario = user.nome;
+
+            // Salva a sessão e garante que seja persistida antes do redirect
             req.session.idUsuario = user.id_usuario;
+            req.session.nomeUsuario = user.nome;
+            req.session.usuarioLogado = user.email;
             req.session.administrador = user.administrador;
             req.session.autenticado = true;
 
-            return res.redirect("/admin/")
+            req.session.save((err) => {
+                if(err) console.error('Erro ao salvar sessão:', err);
+                return res.redirect("/admin/");
+            });
+
         } else {
             res.render("admin/login", {
-                mensagem: "Usuario ou senha incorretos.",
+                mensagem: "Usuário ou senha incorretos.",
             });
         }
     } catch (erro) {
         console.log(erro);
         res.render("admin/login", {
             mensagem: "Erro ao processar login.",
-        })
+        });
     }
 });
-
 
 router.get('/logout', (req, res) => {
     req.session.destroy(() => res.redirect("/"));
 });
 
-export default router
+export default router;

@@ -10,6 +10,11 @@ import produtoRotas from './routes/produtos.js'
 import usuarioRotas from './routes/usuarios.js'
 // import pgSession from 'connect-pg-simple';
 
+// =====================
+// NOVA IMPORTAÇÃO
+import movimentacaoRotas from './routes/movimentacao.js';
+// =====================
+
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename);
 
@@ -36,10 +41,7 @@ app.use(
 // app.use(session({
 //   store: new PgSession({
 //     conString: "postgres://postgres.hjaocdmjqkmukktcezbc:4nnBeSi1k0iJJSeB@aws-1-sa-east-1.pooler.supabase.com:6543/postgres",
-
 //     tableName: 'session',
-
-
 //   }),
 //   secret: "sesisenai",
 //   resave: false,
@@ -55,21 +57,14 @@ app.use(
 app.get('/', (req, res) => res.render('landing/index'))
 
 
-
 const verificarAutenticacao = (req, res, next) =>{
     if(req.session.usuarioLogado) {
         res.locals.usuariosLogado = req.session.usuarioLogado;
-
         res.locals.nomeUsuario = req.session.nomeUsuario;
-
         res.locals.idUsuario = req.session.idUsuario;
-
-
         res.locals.administrador = req.session.administrador;
-
         next()
     } else{
-
         res.redirect("/admin/login")
     }
 }
@@ -80,6 +75,10 @@ app.use('/categorias', categoriaRotas)
 app.use('/produtos', produtoRotas)
 app.use('/usuarios', usuarioRotas)
 
+// =====================
+// NOVA ROTA MOVIMENTAÇÃO
+app.use('/movimentacao', movimentacaoRotas);
+// =====================
 
 app.listen(3000, () =>
 console.log('Servidor rodando em http://localhost:3000')

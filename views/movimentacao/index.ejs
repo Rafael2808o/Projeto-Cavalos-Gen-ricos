@@ -1,0 +1,157 @@
+<%- include('../includes/header.ejs', { titulo: 'Movimentações' }) %>
+
+<style>
+    :root {
+        --verde-principal: #1a7c54;     
+        --verde-claro: #2ecc71;        
+        --verde-hover: #166945;
+        --dourado: #c9a547;            
+        --cinza-fundo: #f8fafc;
+    }
+
+    .btn-verde {
+        @apply bg-[var(--verde-principal)] hover:bg-[var(--verde-hover)] text-white font-semibold py-2 px-6 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105;
+    }
+
+    .btn-verde-outline {
+        @apply border-2 border-[var(--verde-principal)] text-[var(--verde-principal)] hover:bg-[var(--verde-principal)] hover:text-white font-medium py-2 px-6 rounded-lg transition-all duration-300;
+    }
+
+    .table-header {
+        background: linear-gradient(135deg, var(--verde-principal), #159957);
+    }
+</style>
+
+<main class="container mx-auto px-4 py-12 bg-[var(--cinza-fundo)] min-h-screen">
+    <div class="max-w-7xl mx-auto">
+        <h2 class="text-4xl font-bold mb-8 text-gray-800 flex items-center gap-3">
+            <span class="text-[var(--verde-principal)]">✦</span>
+            Movimentações de Suplementos Equinos
+        </h2>
+
+        <div class="bg-white rounded-2xl shadow-xl p-6 mb-8 border border-gray-100">
+            <form action="/movimentacao" method="GET" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="lg:col-span-2">
+                    <label for="busca" class="block text-sm font-semibold text-gray-700 mb-2">Buscar por produto</label>
+                    <input type="text" id="busca" name="busca" placeholder="Ex.: Suplemento Articular, Eletrolítico..." 
+                           value="<%= busca || '' %>" 
+                           class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-4 focus:ring-[var(--verde-claro)]/30 focus:border-[var(--verde-principal)] transition-all duration-300">
+                </div>
+                
+                <div>
+                    <label for="ordenar_por" class="block text-sm font-semibold text-gray-700 mb-2">Ordenar por</label>
+                    <select id="ordenar_por" name="ordenar_por" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-4 focus:ring-[var(--verde-claro)]/30 focus:border-[var(--verde-principal)]">
+                        <option value="data_mov" <%= ordenar_por === 'data_mov' ? 'selected' : '' %>>Data</option>
+                        <option value="produto_nome" <%= ordenar_por === 'produto_nome' ? 'selected' : '' %>>Produto</option>
+                        <option value="tipo" <%= ordenar_por === 'tipo' ? 'selected' : '' %>>Tipo</option>
+                        <option value="quantidade" <%= ordenar_por === 'quantidade' ? 'selected' : '' %>>Quantidade</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="direcao" class="block text-sm font-semibold text-gray-700 mb-2">Ordem</label>
+                    <select id="direcao" name="direcao" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-4 focus:ring-[var(--verde-claro)]/30 focus:border-[var(--verde-principal)]">
+                        <option value="DESC" <%= direcao === 'DESC' ? 'selected' : '' %>>Mais Recente</option>
+                        <option value="ASC" <%= direcao === 'ASC' ? 'selected' : '' %>>Mais Antigo</option>
+                    </select>
+                </div>
+
+<div class="lg:col-span-4 flex justify-end">
+    <button type="submit"
+            class="bg-green-800 hover:bg-green-700 
+                   text-white font-medium text-lg 
+                   px-6 py-3 rounded-lg 
+                   shadow-sm hover:shadow-md 
+                   border border-green-900/50 
+                   transition-all duration-200 transform hover:-translate-y-0.5">
+        Aplicar Filtros
+    </button>
+</div>
+
+
+
+            </form>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="table-header text-white">
+                        <tr>
+                            <th class="px-8 py-5 text-left text-sm font-bold uppercase tracking-wider">Data</th>
+                            <th class="px-8 py-5 text-left text-sm font-bold uppercase tracking-wider">Produto</th>
+                            <th class="px-8 py-5 text-left text-sm font-bold uppercase tracking-wider">Tipo</th>
+                            <th class="px-8 py-5 text-left text-sm font-bold uppercase tracking-wider">Quantidade</th>
+                            <th class="px-8 py-5 text-left text-sm font-bold uppercase tracking-wider">Descrição</th>
+                            <th class="px-8 py-5 text-left text-sm font-bold uppercase tracking-wider">Usuário</th>
+                            <th class="px-8 py-5 text-center text-sm font-bold uppercase tracking-wider">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-100">
+                        <% movimentacoes.forEach(mov => { %>
+                            <tr class="hover:bg-gray-50 transition-all duration-200">
+                                <td class="px-8 py-5 text-sm text-gray-800 font-medium"><%= mov.data_formatada %></td>
+                                <td class="px-8 py-5 text-sm font-semibold text-gray-900"><%= mov.produto_nome %></td>
+                                <td class="px-8 py-5 text-sm font-bold">
+                                    <% if (mov.tipo === 'Entrada') { %>
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-800">
+                                            Entrada
+                                        </span>
+                                    <% } else { %>
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-red-100 text-red-800">
+                                            Saída
+                                        </span>
+                                    <% } %>
+                                </td>
+                                <td class="px-8 py-5 text-sm text-gray-700"><%= mov.quantidade %></td>
+                                <td class="px-8 py-5 text-sm text-gray-600 max-w-xs truncate" title="<%= mov.descricao %>">
+                                    <%= mov.descricao %>
+                                </td>
+                                <td class="px-8 py-5 text-sm text-gray-500 italic">
+                                    <%= mov.usuario_nome || 'Desconhecido' %>
+                                </td>
+                                <td class="px-8 py-5 text-center">
+                                    <div class="flex justify-center gap-3">
+                                        <!-- Editar -->
+                                        <a href="/movimentacao/editar/<%= mov.id_mov %>" 
+                                           class="group bg-[var(--verde-principal)] hover:bg-[var(--verde-hover)] p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
+                                           title="Editar movimentação">
+                                            <img src="/img/edit.svg" alt="Editar" class="w-5 h-5 filter brightness-10 invert">
+                                        </a>
+
+                                        <!-- Deletar -->
+                                        <form action="/movimentacao/deletar/<%= mov.id_mov %>" method="POST" 
+                                              onsubmit="return confirm('Tem certeza que deseja deletar esta movimentação?');" class="inline">
+                                            <button type="submit"
+                                                    class="group bg-red-600 hover:bg-red-700 p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
+                                                    title="Excluir movimentação">
+                                                <img src="/img/delete.svg" alt="Deletar" class="w-5 h-5 filter brightness-0 invert">
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+<a href="/movimentacao/criar"
+   class="fixed bottom-8 right-8 w-16 h-16 rounded-full flex items-center justify-center 
+          bg-gradient-to-br from-green-500 to-green-700 
+          text-white text-4xl font-extrabold 
+          shadow-lg shadow-black/40 
+          border-2 border-white/70
+          transition-all duration-300 transform 
+          hover:scale-110 hover:rotate-12 hover:shadow-2xl hover:shadow-green-400/60 
+          z-50 select-none leading-none"
+   title="Adicionar Nova Movimentação">
+    <span class="drop-shadow-xl">+</span>
+</a>
+
+
+    </div>
+</main>
+
+<%- include('../includes/footer.ejs') %>
