@@ -68,11 +68,43 @@
     <% } %>
   </div>
 
+  <!-- PAGINAÇÃO PEQUENA, BONITA E VISÍVEL -->
+  <% if (paginacao && paginacao.totalPaginas >= 1) { %>
+    <div class="flex justify-center mt-10">
+      <div class="inline-flex items-center gap-3 bg-white px-6 py-3 rounded-full shadow-lg border border-gray-300">
+        <!-- Anterior -->
+        <% if (paginacao.paginaAtual > 1) { %>
+          <a href="?pagina=<%= paginacao.paginaAtual - 1 %><%= busca ? '&busca=' + busca : '' %>"
+             class="w-10 h-10 flex items-center justify-center rounded-full bg-sistema-100 text-sistema-700 font-bold hover:bg-sistema-200 transition">
+            ←
+          </a>
+        <% } else { %>
+          <span class="w-10 h-10 flex items-center justify-center rounded-full text-gray-400">←</span>
+        <% } %>
+
+        <!-- Página atual / total -->
+        <span class="text-lg font-bold text-gray-800">
+          <%= paginacao.paginaAtual %> <span class="text-gray-500">de</span> <%= paginacao.totalPaginas %>
+        </span>
+
+        <!-- Próximo -->
+        <% if (paginacao.paginaAtual < paginacao.totalPaginas) { %>
+          <a href="?pagina=<%= paginacao.paginaAtual + 1 %><%= busca ? '&busca=' + busca : '' %>"
+             class="w-10 h-10 flex items-center justify-center rounded-full bg-sistema-100 text-sistema-700 font-bold hover:bg-sistema-200 transition">
+            →
+          </a>
+        <% } else { %>
+          <span class="w-10 h-10 flex items-center justify-center rounded-full text-gray-400">→</span>
+        <% } %>
+      </div>
+    </div>
+  <% } %>
+
   <a href="/usuarios/novo"
-     aria-label="Adicionar usuário"
-     title="Adicionar novo usuário"
-     class="fixed right-6 bottom-24 md:bottom-8 z-50
-            w-14 h-14 rounded-full bg-gradient-to-b from-sistema-500 to-sistema-700 text-white
+     aria-label="Adicionar Categoria"
+     title="Adicionar nova Categoria"
+     class="bg-green-500 text-white fixed right-6 bottom-24 md:bottom-8 z-50
+            w-14 h-14 rounded-full bg-gradient-to-b from-sistema-500 to-sistema-700
             flex items-center justify-center shadow-lg
             hover:shadow-xl hover:scale-110 transition-all duration-300
             focus:outline-none focus:ring-4 focus:ring-white/50">

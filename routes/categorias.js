@@ -3,11 +3,47 @@ import BD from '../db.js';
 
 const router = express.Router();
 
-// Listar categorias
+const ITENS_POR_PAGINA = 9;
+
+// Listar categorias (COM PAGINAÇÃO E BUSCA)
 router.get('/', async (req, res) => {
   try {
-    const result = await BD.query('SELECT id_categoria, nome_categoria, descricao FROM categorias ORDER BY nome_categoria');
-    res.render('categorias/listar', { categorias: result.rows });
+    let pagina = parseInt(req.query.pagina) || 1;
+    if (pagina < 1) pagina = 1;
+
+    const busca = req.query.busca || '';
+    const offset = (pagina - 1) * ITENS_POR_PAGINA;
+
+    let sqlCount = 'SELECT COUNT(*) AS total FROM categorias';
+    let sqlData = 'SELECT id_categoria, nome_categoria, descricao FROM categorias';
+    let paramsCount = [];
+    let paramsData = [];
+
+    if (busca) {
+      const termo = `%${busca.toLowerCase()}%`;
+      sqlCount += ' WHERE LOWER(nome_categoria) LIKE $1';
+      sqlData += ' WHERE LOWER(nome_categoria) LIKE $1';
+      paramsCount = [termo];
+      paramsData = [termo];
+    }
+
+    const countResult = await BD.query(sqlCount, paramsCount);
+    const totalCategorias = countResult.rows[0].total;
+    const totalPaginas = Math.ceil(totalCategorias / ITENS_POR_PAGINA);
+
+    sqlData += ' ORDER BY nome_categoria LIMIT $1 OFFSET $2';
+    paramsData.push(ITENS_POR_PAGINA, offset);
+
+    const result = await BD.query(sqlData, paramsData);
+
+    res.render('categorias/listar', {
+      categorias: result.rows,
+      busca: busca,
+      paginacao: {
+        paginaAtual: pagina,
+        totalPaginas: totalPaginas
+      }
+    });
   } catch (erro) {
     console.log('Erro ao listar categoria', erro);
     res.render('categorias/listar', { categorias: [], mensagem: erro.message || erro });

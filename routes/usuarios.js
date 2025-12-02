@@ -3,15 +3,49 @@ import BD from '../db.js';
 
 const router = express.Router();
 
+const ITENS_POR_PAGINA = 9;
 
 router.get('/', async (req, res) => {
   try {
+    let pagina = parseInt(req.query.pagina) || 1;
+    if (pagina < 1) pagina = 1;
 
-    const result = await BD.query('SELECT * FROM usuarios ORDER BY nome');
-    res.render('usuarios/listar', { usuarios: result.rows });
+    const busca = req.query.busca || '';
+    const offset = (pagina - 1) * ITENS_POR_PAGINA;
+
+    let sqlCount = 'SELECT COUNT(*) AS total FROM usuarios';
+    let sqlData = 'SELECT * FROM usuarios';
+    let paramsCount = [];
+    let paramsData = [];
+
+    if (busca) {
+      const termo = `%${busca.toLowerCase()}%`;
+      sqlCount += ' WHERE LOWER(nome) LIKE $1 OR LOWER(email) LIKE $2';
+      sqlData += ' WHERE LOWER(nome) LIKE $1 OR LOWER(email) LIKE $2';
+      paramsCount = [termo, termo];
+      paramsData = [termo, termo];
+    }
+
+    const countResult = await BD.query(sqlCount, paramsCount);
+    const totalUsuarios = countResult.rows[0].total;
+    const totalPaginas = Math.ceil(totalUsuarios / ITENS_POR_PAGINA);
+
+    sqlData += ' ORDER BY nome LIMIT $1 OFFSET $2';
+    paramsData.push(ITENS_POR_PAGINA, offset);
+
+    const result = await BD.query(sqlData, paramsData);
+
+    res.render('usuarios/listar', {
+      usuarios: result.rows,
+      busca: busca,
+      paginacao: {
+        paginaAtual: pagina,
+        totalPaginas: totalPaginas
+      }
+    });
   } catch (erro) {
     console.log('Erro ao listar usuario', erro);
-    res.render('usuarios/listar', { usuarios: [], mensagem: erro.message || (erro) });
+    res.render('usuarios/listar', { usuarios: [], mensagem: erro.message || erro });
   }
 });
 
@@ -30,16 +64,11 @@ router.post('/novo', async (req, res) => {
   }
 });
 
-
 router.get('/:id/editar', async (req, res) => {
   const { id } = req.params;
 
-console.log(id)
-
   try {
     const resultado = await BD.query('SELECT * FROM usuarios WHERE id_usuario = $1', [id]);
-   
-    console.log(resultado.rows[0])
    
     res.render('usuarios/editar', { usuarios: resultado.rows[0] });
   } catch (erro) {
@@ -47,7 +76,6 @@ console.log(id)
     res.redirect('/usuarios');
   }
 });
-
 
 router.post('/:id/editar', async (req, res) => {
   const { id } = req.params;
@@ -60,7 +88,6 @@ router.post('/:id/editar', async (req, res) => {
     res.redirect('/usuarios');
   }
 });
-
 
 router.post('/:id/deletar', async (req, res) => {
   const { id } = req.params;

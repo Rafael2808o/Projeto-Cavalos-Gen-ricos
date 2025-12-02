@@ -11,6 +11,7 @@
         type="text" 
         id="busca-categoria" 
         placeholder="Buscar categoria..." 
+        value="<%= typeof busca !== 'undefined' ? busca : '' %>"
         class="w-full pl-12 pr-6 py-4 text-base md:text-lg bg-white border border-gray-300 rounded-xl shadow-sm 
                focus:outline-none focus:ring-2 focus:ring-sistema-500 focus:border-transparent 
                transition-all duration-300 placeholder-gray-400"
@@ -25,50 +26,81 @@
   </div>
 
   <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" id="lista-categorias">
-    <% for (let d of categorias) { %>
-      <div
-        class="categoria-item bg-white rounded-lg shadow-md p-4 flex flex-col justify-between border border-gray-200
-               hover:shadow-xl hover:-translate-y-1 hover:bg-sistema-50 transition-all duration-300 ease-in-out"
-        title="Clique nos botões para editar ou deletar esta categoria"
-        data-nome="<%= d.nome_categoria.toLowerCase() %>">
+    <% if (categorias && categorias.length > 0) { %>
+      <% categorias.forEach(d => { %>
+        <div
+          class="categoria-item bg-white rounded-lg shadow-md p-4 flex flex-col justify-between border border-gray-200
+                 hover:shadow-xl hover:-translate-y-1 hover:bg-sistema-50 transition-all duration-300 ease-in-out"
+          title="Clique nos botões para editar ou deletar esta categoria"
+          data-nome="<%= d.nome_categoria.toLowerCase() %>">
 
-        <div>
-          <p class="font-semibold text-sistema-700 text-base md:text-lg mb-1">
-            <%= d.nome_categoria %>
-          </p>
-          <p class="text-gray-600 text-sm">
-            Descrição: <span class="text-gray-800"><%= d.descricao !== null && d.descricao !== undefined && d.descricao !== '' ? d.descricao : '—' %></span>
-          </p>
+          <div>
+            <p class="font-semibold text-sistema-700 text-base md:text-lg mb-1">
+              <%= d.nome_categoria %>
+            </p>
+            <p class="text-gray-600 text-sm">
+              Descrição: <span class="text-gray-800"><%= d.descricao || '—' %></span>
+            </p>
+          </div>
+
+          <div class="flex justify-end gap-3 mt-3">
+            <form action="/categorias/<%= d.id_categoria %>/editar" method="GET">
+              <button type="submit"
+                      title="Editar categoria"
+                      class="bg-green-600 hover:bg-sucesso-700 p-2 rounded-full shadow flex items-center justify-center transition-transform hover:scale-110">
+                <img src="/img/edit.svg" alt="Editar" class="w-4 h-4 md:w-5 md:h-5">
+              </button>
+            </form>
+
+            <form action="/categorias/<%= d.id_categoria %>/deletar" method="POST"
+                  onsubmit="return confirm('Deseja realmente excluir esta Categoria?')">
+              <button type="submit"
+                      title="Excluir categoria"
+                      class="bg-red-600 hover:bg-erro-700 p-2 rounded-full shadow flex items-center justify-center transition-transform hover:scale-110">
+                <img src="/img/delete.svg" alt="Deletar" class="w-4 h-4 md:w-5 md:h-5">
+              </button>
+            </form>
+          </div>
         </div>
-
-        <div class="flex justify-end gap-3 mt-3">
-
-          <form action="/categorias/<%= d.id_categoria %>/editar" method="GET">
-            <button type="submit"
-                    title="Editar categoria"
-                    class="bg-green-600 hover:bg-sucesso-700 p-2 rounded-full shadow flex items-center justify-center transition-transform hover:scale-110">
-              <img src="/img/edit.svg" alt="Editar" class="w-4 h-4 md:w-5 md:h-5">
-            </button>
-          </form>
-
-          <form action="/categorias/<%= d.id_categoria %>/deletar" method="POST"
-                onsubmit="return confirm('Deseja realmente excluir esta Categoria?')">
-            <button type="submit"
-                    title="Excluir categoria"
-                    class="bg-red-600 hover:bg-erro-700 p-2 rounded-full shadow flex items-center justify-center transition-transform hover:scale-110">
-              <img src="/img/delete.svg" alt="Deletar" class="w-4 h-4 md:w-5 md:h-5">
-            </button>
-          </form>
-        </div>
-      </div>
-    <% } %>
-
-    <% if (!categorias || !categorias.length) { %>
+      <% }) %>
+    <% } else { %>
       <div class="col-span-full mt-6 p-6 border border-dashed border-gray-300 rounded-2xl text-center text-gray-600">
         Nenhuma Categoria cadastrada.
       </div>
     <% } %>
   </div>
+
+  <!-- PAGINAÇÃO PEQUENA, BONITA E VISÍVEL (igual às outras telas) -->
+  <% if (paginacao && paginacao.totalPaginas >= 1) { %>
+    <div class="flex justify-center mt-10">
+      <div class="inline-flex items-center gap-3 bg-white px-6 py-3 rounded-full shadow-lg border border-gray-300">
+        <!-- Anterior -->
+        <% if (paginacao.paginaAtual > 1) { %>
+          <a href="?pagina=<%= paginacao.paginaAtual - 1 %><%= busca ? '&busca=' + busca : '' %>"
+             class="w-10 h-10 flex items-center justify-center rounded-full bg-sistema-100 text-sistema-700 font-bold hover:bg-sistema-200 transition">
+            ←
+          </a>
+        <% } else { %>
+          <span class="w-10 h-10 flex items-center justify-center rounded-full text-gray-400">←</span>
+        <% } %>
+
+        <!-- Página atual / total -->
+        <span class="text-lg font-bold text-gray-800">
+          <%= paginacao.paginaAtual %> <span class="text-gray-500">de</span> <%= paginacao.totalPaginas %>
+        </span>
+
+        <!-- Próximo -->
+        <% if (paginacao.paginaAtual < paginacao.totalPaginas) { %>
+          <a href="?pagina=<%= paginacao.paginaAtual + 1 %><%= busca ? '&busca=' + busca : '' %>"
+             class="w-10 h-10 flex items-center justify-center rounded-full bg-sistema-100 text-sistema-700 font-bold hover:bg-sistema-200 transition">
+            →
+          </a>
+        <% } else { %>
+          <span class="w-10 h-10 flex items-center justify-center rounded-full text-gray-400">→</span>
+        <% } %>
+      </div>
+    </div>
+  <% } %>
 
   <a href="/categorias/novo"
      aria-label="Adicionar Categoria"
@@ -87,16 +119,12 @@
 <script>
   function filtrarCategorias() {
     const input = document.getElementById('busca-categoria');
-    const filtro = input.value.toLowerCase();
+    const filtro = input.value.toLowerCase().trim();
     const itens = document.querySelectorAll('.categoria-item');
 
     itens.forEach(item => {
       const nome = item.getAttribute('data-nome');
-      if (nome.includes(filtro)) {
-        item.style.display = '';
-      } else {
-        item.style.display = 'none';
-      }
+      item.style.display = nome.includes(filtro) ? '' : 'none';
     });
   }
 </script>
