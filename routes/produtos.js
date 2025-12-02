@@ -1,8 +1,10 @@
+// produtos.js
 import express from 'express';
 import BD from '../db.js';
 
 const router = express.Router();
 
+// Listar produtos no painel admin
 router.get('/', async (req, res) => {
   try {
     const result = await BD.query('SELECT * FROM produtos ORDER BY nome');
@@ -13,13 +15,31 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/novo', (req, res) => {
-  res.render('produtos/criar');
+// 🔥 Rota pública para suplementos (SEU suplementos.ejs)
+router.get('/suplementos', async (req, res) => {
+  try {
+    const result = await BD.query('SELECT * FROM produtos ORDER BY nome');
+    res.render('produtos/suplementos', { produtos: result.rows });
+  } catch (erro) {
+    console.log('Erro ao carregar suplementos', erro);
+    res.render('produtos/suplementos', { produtos: [], mensagem: erro.message });
+  }
 });
 
+// Criar produto - GET
+router.get('/novo', async (req, res) => {
+  try {
+    const categorias = await BD.query('SELECT * FROM categorias ORDER BY nome_categoria');
+    res.render('produtos/criar', { categorias: categorias.rows });
+  } catch (erro) {
+    console.log('Erro ao carregar categorias', erro);
+    res.render('produtos/criar', { categorias: [] });
+  }
+});
+
+// Criar produto - POST
 router.post('/novo', async (req, res) => {
   const { nome, estoque_minimo, quantidade, valor_custo, descricao, data_cadastro, imagem, id_categoria } = req.body;
-  console.log(nome, estoque_minimo, quantidade, valor_custo, descricao, data_cadastro, imagem, id_categoria);
 
   try {
     await BD.query(
@@ -27,26 +47,35 @@ router.post('/novo', async (req, res) => {
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
       [nome, estoque_minimo, quantidade, valor_custo, descricao, data_cadastro, imagem, id_categoria]
     );
-
     res.redirect('/produtos');
   } catch (erro) {
     console.log('Erro ao criar produto', erro);
-    res.render('produtos/criar', { mensagem: 'Erro ao salvar o produto' });
+    const categorias = await BD.query('SELECT * FROM categorias ORDER BY nome_categoria');
+    res.render('produtos/criar', { categorias: categorias.rows, mensagem: 'Erro ao salvar o produto' });
   }
 });
 
+// Editar produto - GET
 router.get('/:id/editar', async (req, res) => {
   const { id } = req.params;
- 
+
   try {
-    const resultado = await BD.query('SELECT * FROM produtos WHERE id_produto = $1', [id]);
-    res.render('produtos/editar', { produto: resultado.rows[0] });
+    const resultadoProduto = await BD.query('SELECT * FROM produtos WHERE id_produto = $1', [id]);
+    const resultadoCategorias = await BD.query('SELECT * FROM categorias ORDER BY nome_categoria');
+
+    if (resultadoProduto.rows.length === 0) return res.redirect('/produtos');
+
+    res.render('produtos/editar', {
+      produto: resultadoProduto.rows[0],
+      categorias: resultadoCategorias.rows
+    });
   } catch (erro) {
-    console.log('Erro ao carregar produto', erro);
+    console.log('Erro ao carregar produto/categorias', erro);
     res.redirect('/produtos');
   }
 });
 
+// Editar produto - POST
 router.post('/:id/editar', async (req, res) => {
   const { id } = req.params;
   const { nome, estoque_minimo, quantidade, valor_custo, descricao, data_cadastro, imagem, id_categoria } = req.body;
@@ -59,7 +88,6 @@ router.post('/:id/editar', async (req, res) => {
        WHERE id_produto = $9`,
       [nome, estoque_minimo, quantidade, valor_custo, descricao, data_cadastro, imagem, id_categoria, id]
     );
-
     res.redirect('/produtos');
   } catch (erro) {
     console.log('Erro ao atualizar produto', erro);
@@ -67,9 +95,9 @@ router.post('/:id/editar', async (req, res) => {
   }
 });
 
+// Deletar produto
 router.post('/:id/deletar', async (req, res) => {
   const { id } = req.params;
-
   try {
     await BD.query('DELETE FROM produtos WHERE id_produto = $1', [id]);
     res.redirect('/produtos');
@@ -79,14 +107,4 @@ router.post('/:id/deletar', async (req, res) => {
   }
 });
 
-router.get('/suplementos', async (req, res) => {
-  try {
-    const result = await BD.query('SELECT * FROM produtos ORDER BY nome');
-    res.render('produtos/suplementos', { produtos: result.rows });
-  } catch (erro) {
-    console.log('Erro ao carregar suplementos', erro);
-    res.render('produtos/suplementos', { produtos: [], mensagem: erro.message });
-  }
-});
-
-export default router;  
+export default router;

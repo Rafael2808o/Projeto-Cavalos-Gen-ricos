@@ -32,7 +32,6 @@
       </div>
 
       <div>
- 
         <label for="id_categoria" class="block text-gray-700 font-medium">Categoria</label>
         <select
           id="id_categoria"
@@ -41,10 +40,11 @@
           required
         >
           <option value="">Selecione...</option>
-          <option value=6>Vitaminas e Minerais</option>
-          <option value=6>Suplementos Proteicos</option>
-          <option value=6>Energéticos e Desempenho</option>
-          <option value=6>Saúde das Articulações</option>
+          <% categorias.forEach(cat => { %>
+            <option value="<%= cat.id_categoria %>">
+              <%= cat.nome_categoria %>
+            </option>
+          <% }) %>
         </select>
       </div>
 
@@ -72,17 +72,21 @@
           required
         />
       </div>
+
       <div>
-        <label for="estoque" class="block text-gray-700 font-medium">Quantidade</label>
+        <label for="quantidade" class="block text-gray-700 font-medium">Quantidade</label>
         <input
           type="number"
           id="quantidade"
           name="quantidade"
           placeholder="Ex: 20"
-          class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-green-500"
+          value="0"
+          readonly
+          class="w-full border border-gray-300 rounded-lg p-2 bg-gray-100 cursor-not-allowed"
           required
         />
       </div>
+
       <div>
         <label for="estoque" class="block text-gray-700 font-medium">Data Cadastro</label>
         <input
@@ -93,8 +97,9 @@
           required
         />
       </div>
+
       <div>
-        <label for="estoque" class="block text-gray-700 font-medium">Link Imagem</label>
+        <label for="imagem" class="block text-gray-700 font-medium">Link Imagem</label>
         <input
           type="text"
           id="imagem"
@@ -119,6 +124,7 @@
           Cadastrar
         </button>
       </div>
+
     </form>
   </div>
 </main>

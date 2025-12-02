@@ -21,7 +21,6 @@
         />
       </div>
 
-
       <div>
         <label for="descricao" class="block text-gray-700 font-medium">Descrição</label>
         <textarea
@@ -32,20 +31,20 @@
         ><%= produto.descricao %></textarea>
       </div>
 
-
       <div>
         <label for="id_categoria" class="block text-gray-700 font-medium">Categoria</label>
-
         <select
           id="id_categoria"
           name="id_categoria"
           class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-green-500"
           required
         >
-          <option value="1" <%= produto.id_categoria == 1 ? 'selected' : '' %>>Vitaminas e Minerais</option>
-          <option value="2" <%= produto.id_categoria == 2 ? 'selected' : '' %>>Suplementos Proteicos</option>
-          <option value="3" <%= produto.id_categoria == 3 ? 'selected' : '' %>>Energéticos e Desempenho</option>
-          <option value="4" <%= produto.id_categoria == 4 ? 'selected' : '' %>>Saúde das Articulações</option>
+          <option value="">Selecione...</option>
+          <% categorias.forEach(cat => { %>
+            <option value="<%= cat.id_categoria %>" <%= produto.id_categoria == cat.id_categoria ? 'selected' : '' %>>
+              <%= cat.nome_categoria %>
+            </option>
+          <% }) %>
         </select>
       </div>
 
@@ -74,7 +73,6 @@
         />
       </div>
 
-
       <div>
         <label for="quantidade" class="block text-gray-700 font-medium">Quantidade</label>
         <input
@@ -82,7 +80,8 @@
           id="quantidade"
           name="quantidade"
           value="<%= produto.quantidade %>"
-          class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-green-500"
+          readonly
+          class="w-full border border-gray-300 rounded-lg p-2 bg-gray-100 cursor-not-allowed"
           required
         />
       </div>
@@ -98,7 +97,6 @@
           required
         />
       </div>
-
 
       <div>
         <label for="imagem" class="block text-gray-700 font-medium">Link da Imagem</label>
@@ -127,6 +125,7 @@
           Salvar Alterações
         </button>
       </div>
+
     </form>
   </div>
 </main>
