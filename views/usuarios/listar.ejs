@@ -1,65 +1,99 @@
-<%- include('../includes/header.ejs', { titulo: 'Lista de Usuarios' }) %>
+<%- include('../includes/header.ejs', { titulo: 'Lista de Usuários' }) %>
 
-  <main class="p-4 md:p-6 pb-24 bg-neutra-50 min-h-screen">
-    <% if (typeof mensagem !=='undefined' && mensagem) { %>
-      <p class="text-red-600 mb-4">
-        <%= mensagem %>
-      </p>
-      <% } %>
+<main class="p-4 md:p-6 pb-24 bg-neutra-50 min-h-screen">
+  <% if (typeof mensagem !== 'undefined' && mensagem) { %>
+    <p class="text-red-600 mb-4"><%= mensagem %></p>
+  <% } %>
 
-        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <% for (let usuario of usuarios) { %>
-            <div class="bg-white rounded-lg shadow-md p-4 flex flex-col justify-between border border-gray-200
-               hover:shadow-xl hover:-translate-y-1 hover:bg-sistema-50 transition-all duration-300 ease-in-out"
-              title="Clique nos botões para editar ou deletar esta Usuario">
+  <div class="max-w-3xl mx-auto mb-8">
+    <div class="relative">
+      <input 
+        type="text" 
+        id="busca-usuario" 
+        placeholder="Buscar usuário por nome ou e-mail..." 
+        class="w-full pl-12 pr-6 py-4 text-base md:text-lg bg-white border border-gray-300 rounded-xl shadow-sm 
+               focus:outline-none focus:ring-2 focus:ring-sistema-500 focus:border-transparent 
+               transition-all duration-300 placeholder-gray-400"
+        onkeyup="filtrarUsuarios()">
+      <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+        <svg class="w-6 h-6 text-sistema-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
+      </div>
+    </div>
+  </div>
 
-              <div>
-                <p class="font-semibold text-sistema-700 text-base md:text-lg mb-1">
-                  <%= usuario.nome %>
-                </p>
-                <p class="text-gray-600 text-sm">
-                  Email: <span class="text-gray-800">
-                    <%= usuario.email || '—' %>
-                  </span>
-                </p>
-              </div>
+  <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" id="lista-usuarios">
+    <% if (usuarios && usuarios.length > 0) { %>
+      <% usuarios.forEach(usuario => { %>
+        <div class="usuario-item bg-white rounded-lg shadow-md p-4 flex flex-col justify-between border border-gray-200
+                     hover:shadow-xl hover:-translate-y-1 hover:bg-sistema-50 transition-all duration-300 ease-in-out"
+             data-nome="<%= (usuario.nome || '').toLowerCase() %>"
+             data-email="<%= (usuario.email || '').toLowerCase() %>">
 
-              <div class="flex justify-end gap-3 mt-3">
-                <form action="/usuarios/<%= usuario.id_usuario %>/editar" method="GET">
-                  <button type="submit" title="Editar usuario"
-                    class="bg-green-600 hover:bg-sucesso-700 text-white p-2 rounded-full shadow flex items-center justify-center transition-transform hover:scale-110">
-                    <img src="/img/edit.svg" alt="Editar" class="w-4 h-4 md:w-5 md:h-5">
-                  </button>
-                </form>
+          <div>
+            <p class="font-semibold text-sistema-700 text-base md:text-lg mb-1">
+              <%= usuario.nome %>
+            </p>
+            <p class="text-gray-600 text-sm">
+              Email: <span class="text-gray-800"><%= usuario.email || '—' %></span>
+            </p>
+          </div>
 
-                <form action="/usuarios/<%= usuario.id_usuario %>/deletar" method="POST"
-                  onsubmit="return confirm('Deseja realmente excluir este usuario?')">
-                  <button type="submit" title="Excluir usuario"
-                    class="bg-red-600 hover:bg-erro-700 text-white p-2 rounded-full shadow flex items-center justify-center transition-transform hover:scale-110">
-                    <img src="/img/delete.svg" alt="Deletar" class="w-4 h-4 md:w-5 md:h-5">
-                  </button>
-                </form>
-              </div>
-            </div>
-            <% } %>
+          <div class="flex justify-end gap-3 mt-3">
+            <form action="/usuarios/<%= usuario.id_usuario %>/editar" method="GET">
+              <button type="submit"
+                      title="Editar usuário"
+                      class="bg-green-600 hover:bg-sucesso-700 p-2 rounded-full shadow flex items-center justify-center transition-transform hover:scale-110">
+                <img src="/img/edit.svg" alt="Editar" class="w-4 h-4 md:w-5 md:h-5">
+              </button>
+            </form>
 
-              <% if (!usuarios || !usuarios.length) { %>
-                <div
-                  class="col-span-full mt-6 p-6 border border-dashed border-gray-300 rounded-2xl text-center text-gray-600">
-                  Nenhum usuario cadastrado.
-                </div>
-                <% } %>
+            <form action="/usuarios/<%= usuario.id_usuario %>/deletar" method="POST"
+                  onsubmit="return confirm('Deseja realmente excluir este usuário?')">
+              <button type="submit"
+                      title="Excluir usuário"
+                      class="bg-red-600 hover:bg-erro-700 p-2 rounded-full shadow flex items-center justify-center transition-transform hover:scale-110">
+                <img src="/img/delete.svg" alt="Deletar" class="w-4 h-4 md:w-5 md:h-5">
+              </button>
+            </form>
+          </div>
         </div>
+      <% }) %>
+    <% } else { %>
+      <div class="col-span-full mt-6 p-6 border border-dashed border-gray-300 rounded-2xl text-center text-gray-600">
+        Nenhum usuário cadastrado.
+      </div>
+    <% } %>
+  </div>
 
-        <a href="/usuarios/novo" aria-label="Adicionar usuario" title="Adicionar nova usuario" class="fixed right-6 bottom-24 md:bottom-8 z-50
-            bg-green-500 w-14 h-14 rounded-full bg-gradient-to-b from-sistema-500 to-sistema-700 text-white
+  <a href="/usuarios/novo"
+     aria-label="Adicionar usuário"
+     title="Adicionar novo usuário"
+     class="fixed right-6 bottom-24 md:bottom-8 z-50
+            w-14 h-14 rounded-full bg-gradient-to-b from-sistema-500 to-sistema-700 text-white
             flex items-center justify-center shadow-lg
             hover:shadow-xl hover:scale-110 transition-all duration-300
             focus:outline-none focus:ring-4 focus:ring-white/50">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M11 5a1 1 0 1 1 2 0v6h6a1 1 0 1 1 0 2h-6v6a1 1 0 1 1-2 0v-6H5a1 1 0 1 1 0-2h6V5z" />
-          </svg>
-        </a>
-  </main>
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M11 5a1 1 0 1 1 2 0v6h6a1 1 0 1 1 0 2h-6v6a1 1 0 1 1-2 0v-6H5a1 1 0 1 1 0-2h6V5z"/>
+    </svg>
+  </a>
+</main>
 
-  <%- include('../includes/footer.ejs') %>
+<script>
+  function filtrarUsuarios() {
+    const input = document.getElementById('busca-usuario');
+    const filtro = input.value.toLowerCase().trim();
+    const itens = document.querySelectorAll('.usuario-item');
+
+    itens.forEach(item => {
+      const nome = item.getAttribute('data-nome');
+      const email = item.getAttribute('data-email');
+      item.style.display = (nome.includes(filtro) || email.includes(filtro)) ? '' : 'none';
+    });
+  }
+</script>
+
+<%- include('../includes/footer.ejs') %>

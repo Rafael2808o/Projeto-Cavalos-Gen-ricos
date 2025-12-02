@@ -1,59 +1,104 @@
 <%- include('../includes/header.ejs', { titulo: 'Lista de Produtos' }) %>
 
-<main class="p-6 min-h-screen">
+<main class="p-4 md:p-6 pb-24 bg-neutra-50 min-h-screen">
 
-  <% if (produtos.length === 0) { %>
-    <p class="text-gray-500 text-center mt-10">Nenhum produto cadastrado ainda.</p>
-  <% } else { %>
-    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      <% for (let produto of produtos) { %>
-        <div class="bg-white shadow-md rounded-2xl p-5 flex flex-col justify-between">
+  <% if (typeof mensagem !== 'undefined' && mensagem) { %>
+    <p class="text-red-600 mb-4"><%= mensagem %></p>
+  <% } %>
+
+  
+  <div class="max-w-3xl mx-auto mb-8">
+    <div class="relative">
+      <input 
+        type="text" 
+        id="busca-produto" 
+        placeholder="Buscar produto por nome ou descrição..." 
+        class="w-full pl-12 pr-6 py-4 text-base md:text-lg bg-white border border-gray-300 rounded-xl shadow-sm 
+               focus:outline-none focus:ring-2 focus:ring-sistema-500 focus:border-transparent 
+               transition-all duration-300 placeholder-gray-400"
+        onkeyup="filtrarProdutos()">
+      <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+        <svg class="w-6 h-6 text-sistema-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" id="lista-produtos">
+    <% if (produtos && produtos.length > 0) { %>
+      <% produtos.forEach(produto => { %>
+        <div class="produto-item bg-white rounded-lg shadow-md p-5 flex flex-col justify-between border border-gray-200
+                     hover:shadow-xl hover:-translate-y-1 hover:bg-sistema-50 transition-all duration-300 ease-in-out"
+             data-nome="<%= (produto.nome || '').toLowerCase() %>"
+             data-descricao="<%= (produto.descricao || '').toLowerCase() %>">
+
           <div>
-            <h2 class="text-xl font-semibold text-gray-800 mb-2"><%= produto.nome %></h2>
-            <p class="text-sm text-gray-600 mb-2"><%= produto.descricao || 'Sem descrição' %></p>
-            <p class="text-sm text-gray-700 font-medium mb-1">
-              Preço: <span class="text-green-700">R$ <%= produto.valor_custo %></span>
+            <h2 class="text-xl font-semibold text-sistema-700 mb-2"><%= produto.nome %></h2>
+            <p class="text-sm text-gray-600 mb-3"><%= produto.descricao || 'Sem descrição' %></p>
+            <p class="text-sm text-gray-700 font-medium">
+              Preço: <span class="text-green-700">R$ <%= Number(produto.valor_custo).toFixed(2).replace('.', ',') %></span>
             </p>
-            <p class="text-sm text-gray-700 font-medium mb-1">
-              Estoque: <span class="text-green-700"><%= produto.quantidade %></span>
+            <p class="text-sm text-gray-700 font-medium">
+              Estoque: <span class="<%= produto.quantidade > 0 ? 'text-green-700' : 'text-red-700' %>"><%= produto.quantidade %></span>
             </p>
           </div>
 
-          <div class="mt-4 flex justify-end space-x-3"> 
-            <a
-              href="/produtos/<%= produto.id_produto %>/editar"
-            >
-              <button type="submit"
-                      title="Editar categoria"
+          <div class="mt-4 flex justify-end gap-3">
+            <a href="/produtos/<%= produto.id_produto %>/editar">
+              <button type="button"
+                      title="Editar produto"
                       class="bg-green-600 hover:bg-sucesso-700 p-2 rounded-full shadow flex items-center justify-center transition-transform hover:scale-110">
-              <img src="/img/edit.svg" alt="Editar" class="w-4 h-4 md:w-5 md:h-5">
-            </button>
+                <img src="/img/edit.svg" alt="Editar" class="w-4 h-4 md:w-5 md:h-5">
+              </button>
             </a>
-            
-            <form
-              action="/produtos/<%= produto.id_produto %>/deletar"
-              method="POST"
-              onsubmit="return confirm('Tem certeza que deseja excluir este produto?')"
-            >
-              <button type="submit" title="Excluir produto"
-                      class="bg-red-600 hover:bg-erro-700 text-white p-2 rounded-full shadow flex items-center justify-center transition-transform hover:scale-110">
+
+            <form action="/produtos/<%= produto.id_produto %>/deletar" method="POST"
+                  onsubmit="return confirm('Tem certeza que deseja excluir este produto?')">
+              <button type="submit"
+                      title="Excluir produto"
+                      class="bg-red-600 hover:bg-erro-700 p-2 rounded-full shadow flex items-center justify-center transition-transform hover:scale-110">
                 <img src="/img/delete.svg" alt="Deletar" class="w-4 h-4 md:w-5 md:h-5">
               </button>
             </form>
           </div>
-          </div>
-      <% } %>
-    </div>
-            <a href="/produtos/novo" aria-label="Adicionar produto" title="Adicionar novo produto" class="fixed right-6 bottom-24 md:bottom-8 z-50
-            bg-green-500 w-14 h-14 rounded-full bg-gradient-to-b from-sistema-500 to-sistema-700 text-white
+        </div>
+      <% }) %>
+    <% } else { %>
+      <div class="col-span-full mt-6 p-6 border border-dashed border-gray-300 rounded-2xl text-center text-gray-600">
+        Nenhum produto cadastrado ainda.
+      </div>
+    <% } %>
+  </div>
+
+  
+  <a href="/produtos/novo"
+     aria-label="Adicionar produto"
+     title="Adicionar novo produto"
+     class="fixed right-6 bottom-24 md:bottom-8 z-50
+            w-14 h-14 rounded-full bg-gradient-to-b from-sistema-500 to-sistema-700 text-white
             flex items-center justify-center shadow-lg
             hover:shadow-xl hover:scale-110 transition-all duration-300
             focus:outline-none focus:ring-4 focus:ring-white/50">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M11 5a1 1 0 1 1 2 0v6h6a1 1 0 1 1 0 2h-6v6a1 1 0 1 1-2 0v-6H5a1 1 0 1 1 0-2h6V5z" />
-          </svg>
-        </a>
-  <% } %>
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M11 5a1 1 0 1 1 2 0v6h6a1 1 0 1 1 0 2h-6v6a1 1 0 1 1-2 0v-6H5a1 1 0 1 1 0-2h6V5z"/>
+    </svg>
+  </a>
 </main>
+
+<script>
+  function filtrarProdutos() {
+    const input = document.getElementById('busca-produto');
+    const filtro = input.value.toLowerCase().trim();
+    const itens = document.querySelectorAll('.produto-item');
+
+    itens.forEach(item => {
+      const nome = item.getAttribute('data-nome');
+      const descricao = item.getAttribute('data-descricao');
+      item.style.display = (nome.includes(filtro) || descricao.includes(filtro)) ? '' : 'none';
+    });
+  }
+</script>
 
 <%- include('../includes/footer.ejs') %>

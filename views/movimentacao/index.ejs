@@ -9,7 +9,7 @@
         --cinza-fundo: #f8fafc;
     }
 
-    /* Botão verde principal (usado em "Aplicar Filtros", "Salvar", etc) */
+  
     .btn-verde {
         background: linear-gradient(135deg, var(--verde-principal), var(--verde-claro));
         color: white;
@@ -146,14 +146,14 @@
                                 </td>
                                 <td class="px-8 py-5 text-center">
                                     <div class="flex justify-center gap-3">
-                                        <!-- Editar -->
+                                        
                                         <a href="/movimentacao/editar/<%= mov.id_mov %>" 
                                            class="group bg-[var(--verde-principal)] hover:bg-[var(--verde-hover)] p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
                                            title="Editar movimentação">
                                             <img src="/img/edit.svg" alt="Editar" class="w-5 h-5 filter brightness-10 invert">
                                         </a>
 
-                                        <!-- Deletar -->
+                                        
                                         <form action="/movimentacao/deletar/<%= mov.id_mov %>" method="POST" 
                                               onsubmit="return confirm('Tem certeza que deseja deletar esta movimentação?');" class="inline">
                                             <button type="submit"
