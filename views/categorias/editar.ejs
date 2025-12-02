@@ -1,43 +1,31 @@
 <%- include('../includes/header.ejs', { titulo: 'Editar Categoria' }) %>
 
-<main class="p-6 bg-gray-100 min-h-screen flex flex-col items-center">
-  <div class="bg-white w-full max-w-lg rounded-2xl shadow-md p-6">
+<main class="p-4 md:p-6 bg-neutra-50 min-h-screen flex flex-col items-center justify-center">
+  <div class="bg-white rounded-xl shadow-lg p-6 w-full max-w-md border border-gray-200">
+    <h2 class="text-2xl font-semibold text-sistema-700 mb-6 text-center">Editar Categoria</h2>
 
-    <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">
-      Editar Categoria
-    </h1>
+    <% if (typeof mensagem !== 'undefined' && mensagem) { %>
+      <p class="text-red-600 mb-4"><%= mensagem %></p>
+    <% } %>
 
-    <form action="/categorias/<%= categoria.id_categoria %>/editar" method="POST" class="space-y-5">
-
-
+    <form action="/categorias/<%= categoria.id_categoria %>/editar" method="POST" class="flex flex-col gap-4">
       <div>
-        <label for="nome_categoria" class="block text-gray-700 font-medium">
-          Nome da Categoria
-        </label>
-        <input
-          type="text"
-          id="nome_categoria"
-          name="nome_categoria"
-          value="<%= categoria.nome_categoria %>"
-          class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition"
-          required
-        />
+        <label for="nome_categoria" class="block text-sm font-medium text-gray-700 mb-1">Nome da categoria</label>
+        <input type="text" id="nome_categoria" name="nome_categoria" required
+               value="<%= categoria.nome_categoria %>"
+               class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-sistema-500 focus:border-sistema-500 outline-none"/>
       </div>
 
-      <div class="pt-4 flex justify-between">
-        <a
-          href="/categorias"
-          class="px-4 py-2 rounded-lg bg-gray-300 hover:bg-gray-400 text-gray-800 font-medium transition"
-        >
-          Voltar
-        </a>
+      <div>
+        <label for="descricao" class="block text-sm font-medium text-gray-700 mb-1">Descrição</label>
+        <input type="text" id="descricao" name="descricao" required
+               value="<%= categoria.descricao %>"
+               class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-sistema-500 focus:border-sistema-500 outline-none"/>
+      </div>
 
-        <button
-          type="submit"
-          class="px-6 py-2 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition"
-        >
-          Salvar Alterações
-        </button>
+      <div class="flex justify-end gap-3 mt-4">
+        <a href="/categorias" class="px-4 py-2 rounded-md bg-gray-400 text-white hover:bg-gray-500 transition">Cancelar</a>
+        <button type="submit" class="px-4 py-2 rounded-md bg-green-600 text-white hover:bg-green-600 transition">Salvar</button>
       </div>
     </form>
   </div>
