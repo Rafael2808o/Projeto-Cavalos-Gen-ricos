@@ -1,56 +1,80 @@
 <%- include('../includes/header.ejs', { titulo: pageTitle }) %>
 
-<main class="container mx-auto px-4 py-8">
-    <h2 class="text-2xl font-bold mb-6 text-gray-800"><%= pageTitle %></h2>
+<main class="container mx-auto px-4 py-8 min-h-screen bg-gray-50">
+    <h2 class="text-3xl font-bold mb-8 text-gray-800 text-center"><%= pageTitle %></h2>
 
-    <div class="max-w-xl mx-auto bg-white p-8 rounded-lg shadow-xl">
-        <form action="<%= action %>" method="POST" class="space-y-6">
-            
-            <div>
-                <label for="produto_id" class="block text-sm font-medium text-gray-700">Suplemento Equino</label>
-                <select id="produto_id" name="produto_id" required
-                        class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                    <option value="">Selecione um Suplemento</option>
-                    <% produtos.forEach(produto => { %>
-                        <option value="<%= produto.id_produto %>" 
-                            <%= movimentacao && movimentacao.id_produto == produto.id_produto ? 'selected' : '' %>>
-                            <%= produto.nome %>
-                        </option>
-                    <% }); %>
-                </select>
+    <div class="max-w-2xl mx-auto">
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+            <!-- Cabeçalho verde -->
+            <div class="bg-gradient-to-r from-green-600 to-emerald-700 px-8 py-5">
+                <h3 class="text-xl font-semibold text-white">Registro de Movimentação de Estoque</h3>
             </div>
 
-            <div>
-                <label for="tipo" class="block text-sm font-medium text-gray-700">Tipo de Movimentação</label>
-                <select id="tipo" name="tipo" required
-                        class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                    <option value="Entrada" <%= movimentacao && movimentacao.tipo === 'Entrada' ? 'selected' : '' %>>Entrada no Estoque</option>
-                    <option value="Saída" <%= movimentacao && movimentacao.tipo === 'Saída' ? 'selected' : '' %>>Saída (Venda/Uso)</option>
-                </select>
-            </div>
+            <div class="p-8">
+                <form action="<%= action %>" method="POST" class="space-y-7">
 
-            <div>
-                <label for="quantidade" class="block text-sm font-medium text-gray-700">Quantidade</label>
-                <input type="number" id="quantidade" name="quantidade" required min="1"
-                       value="<%= movimentacao ? movimentacao.quantidade : '' %>"
-                       class="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-            </div>
+                    <!-- Suplemento Equino -->
+                    <div>
+                        <label for="produto_id" class="block text-sm font-semibold text-gray-800 mb-2">
+                            Suplemento Equino
+                        </label>
+                        <select id="produto_id" name="produto_id" required
+                                class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition duration-200 text-gray-800 bg-white shadow-sm hover:border-emerald-400">
+                            <option value="">Selecione um Suplemento</option>
+                            <% produtos.forEach(produto => { %>
+                                <option value="<%= produto.id_produto %>" 
+                                    <%= movimentacao && movimentacao.id_produto == produto.id_produto ? 'selected' : '' %>>
+                                    <%= produto.nome %>
+                                </option>
+                            <% }); %>
+                        </select>
+                    </div>
 
-            <div>
-                <label for="descricao" class="block text-sm font-medium text-gray-700">Motivo/Observação (Opcional)</label>
-                <textarea id="descricao" name="descricao" rows="3"
-                          class="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"><%= movimentacao ? movimentacao.descricao : '' %></textarea>
-            </div>
+                    <!-- Tipo de Movimentação -->
+                    <div>
+                        <label for="tipo" class="block text-sm font-semibold text-gray-800 mb-2">
+                            Tipo de Movimentação
+                        </label>
+                        <select id="tipo" name="tipo" required
+                                class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition duration-200 text-gray-800 bg-white shadow-sm hover:border-emerald-400">
+                            <option value="Entrada" <%= movimentacao && movimentacao.tipo === 'Entrada' ? 'selected' : '' %>>Entrada no Estoque</option>
+                            <option value="Saída" <%= movimentacao && movimentacao.tipo === 'Saída' ? 'selected' : '' %>>Saída (Venda/Uso)</option>
+                        </select>
+                    </div>
 
-            <div class="flex justify-end space-x-3">
-                <a href="/movimentacao" class="inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition duration-150">
-                    Cancelar
-                </a>
-                <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150">
-                    Salvar Movimentação
-                </button>
+                    <!-- Quantidade -->
+                    <div>
+                        <label for="quantidade" class="block text-sm font-semibold text-gray-800 mb-2">
+                            Quantidade
+                        </label>
+                        <input type="number" id="quantidade" name="quantidade" required min="1"
+                               value="<%= movimentacao ? movimentacao.quantidade : '' %>"
+                               class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition duration-200 text-gray-800 shadow-sm hover:border-emerald-400">
+                    </div>
+
+                    <!-- Descrição -->
+                    <div>
+                        <label for="descricao" class="block text-sm font-semibold text-gray-800 mb-2">
+                            Motivo/Observação <span class="text-gray-500 font-normal">(Opcional)</span>
+                        </label>
+                        <textarea id="descricao" name="descricao" rows="4"
+                                  class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition duration-200 text-gray-800 shadow-sm hover:border-emerald-400 resize-none"><%= movimentacao ? movimentacao.descricao : '' %></textarea>
+                    </div>
+
+                    <!-- Botões -->
+                    <div class="flex justify-end space-x-4 pt-6 border-t border-gray-200 mt-8">
+                        <a href="/movimentacao" 
+                           class="inline-flex items-center justify-center px-6 py-3 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition duration-200">
+                            Cancelar
+                        </a>
+                        <button type="submit" 
+                                class="inline-flex items-center justify-center px-8 py-3 border border-transparent rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 shadow-md transform hover:scale-105 transition duration-200">
+                            Salvar Movimentação
+                        </button>
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
 </main>
 

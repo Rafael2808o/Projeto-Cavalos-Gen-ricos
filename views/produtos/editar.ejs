@@ -1,131 +1,156 @@
 <%- include('../includes/header.ejs', { titulo: 'Editar Produto' }) %>
 
-<main class="p-6 bg-gray-100 min-h-screen flex flex-col items-center">
-  <div class="bg-white w-full max-w-lg rounded-2xl shadow-md p-6">
-   
-    <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">
-      ✏️ Editar Suplemento Equino
-    </h1>
+<main class="p-4 md:p-6 bg-neutra-50 min-h-screen flex items-center justify-center">
+  <div class="bg-white rounded-xl shadow-xl border border-gray-200 p-8 w-full max-w-2xl">
+    <h2 class="text-2xl font-bold text-sistema-700 text-center mb-8 flex items-center justify-center gap-3">
+      Editar Suplemento Equino
+    </h2>
 
-    <form action="/produtos/<%= produto.id_produto %>/editar" method="POST" class="space-y-5">
+    <% if (typeof mensagem !== 'undefined' && mensagem) { %>
+      <div class="mb-6 p-4 rounded-lg text-sm border
+        <%= mensagem.toLowerCase().includes('sucesso') || mensagem.toLowerCase().includes('atualizado') ? 'bg-green-50 border-green-200 text-green-800' : 'bg-red-50 border-red-200 text-red-700' %>">
+        <%= mensagem %>
+      </div>
+    <% } %>
 
-      <div>
-        <label for="nome" class="block text-gray-700 font-medium">Nome do Produto</label>
-        <input
-          type="text"
-          id="nome"
-          name="nome"
-          value="<%= produto.nome %>"
-          class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-green-500"
-          required
-        />
+    <form action="/produtos/<%= produto.id_produto %>/editar" method="POST" class="space-y-6">
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div>
+          <label for="nome" class="block text-sm font-medium text-gray-700 mb-2">
+            Nome do Produto
+          </label>
+          <input
+            type="text"
+            id="nome"
+            name="nome"
+            value="<%= produto.nome %>"
+            required
+            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sistema-500 focus:border-sistema-500 outline-none transition-shadow"
+          />
+        </div>
+
+        <div>
+          <label for="id_categoria" class="block text-sm font-medium text-gray-700 mb-2">
+            Categoria
+          </label>
+          <select
+            id="id_categoria"
+            name="id_categoria"
+            required
+            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sistema-500 focus:border-sistema-500 outline-none transition-shadow"
+          >
+            <option value="">Selecione uma categoria</option>
+            <% categorias.forEach(cat => { %>
+              <option value="<%= cat.id_categoria %>" <%= produto.id_categoria == cat.id_categoria ? 'selected' : '' %>>
+                <%= cat.nome_categoria %>
+              </option>
+            <% }) %>
+          </select>
+        </div>
       </div>
 
       <div>
-        <label for="descricao" class="block text-gray-700 font-medium">Descrição</label>
+        <label for="descricao" class="block text-sm font-medium text-gray-700 mb-2">
+          Descrição do Produto
+        </label>
         <textarea
           id="descricao"
           name="descricao"
-          rows="3"
-          class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-green-500"
+          rows="4"
+          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sistema-500 focus:border-sistema-500 outline-none transition-shadow resize-none"
         ><%= produto.descricao %></textarea>
       </div>
 
-      <div>
-        <label for="id_categoria" class="block text-gray-700 font-medium">Categoria</label>
-        <select
-          id="id_categoria"
-          name="id_categoria"
-          class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-green-500"
-          required
-        >
-          <option value="">Selecione...</option>
-          <% categorias.forEach(cat => { %>
-            <option value="<%= cat.id_categoria %>" <%= produto.id_categoria == cat.id_categoria ? 'selected' : '' %>>
-              <%= cat.nome_categoria %>
-            </option>
-          <% }) %>
-        </select>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div>
+          <label for="valor_custo" class="block text-sm font-medium text-gray-700 mb-2">
+            Preço de Custo (R$)
+          </label>
+          <input
+            type="number"
+            step="0.01"
+            id="valor_custo"
+            name="valor_custo"
+            value="<%= produto.valor_custo %>"
+            required
+            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sistema-500 focus:border-sistema-500 outline-none transition-shadow"
+          />
+        </div>
+
+        <div>
+          <label for="estoque_minimo" class="block text-sm font-medium text-gray-700 mb-2">
+            Estoque Mínimo
+          </label>
+          <input
+            type="number"
+            id="estoque_minimo"
+            name="estoque_minimo"
+            value="<%= produto.estoque_minimo %>"
+            required
+            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sistema-500 focus:border-sistema-500 outline-none transition-shadow"
+          />
+        </div>
+
+        <div>
+          <label for="data_cadastro" class="block text-sm font-medium text-gray-700 mb-2">
+            Data de Cadastro
+          </label>
+          <input
+            type="date"
+            id="data_cadastro"
+            name="data_cadastro"
+            value="<%= produto.data_cadastro.toISOString().split('T')[0] %>"
+            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sistema-500 focus:border-sistema-500 outline-none transition-shadow"
+            readonly
+          />
+        </div>
       </div>
 
-      <div>
-        <label for="valor_custo" class="block text-gray-700 font-medium">Preço (R$)</label>
-        <input
-          type="number"
-          step="0.01"
-          id="valor_custo"
-          name="valor_custo"
-          value="<%= produto.valor_custo %>"
-          class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-green-500"
-          required
-        />
+      <div class="grid md:grid-cols-2 gap-6">
+        <div>
+          <label for="imagem" class="block text-sm font-medium text-gray-700 mb-2">
+            URL da Imagem
+          </label>
+          <input
+            type="url"
+            id="imagem"
+            name="imagem"
+            value="<%= produto.imagem %>"
+            required
+            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sistema-500 focus:border-sistema-500 outline-none transition-shadow"
+          />
+        </div>
+
+        <div>
+          <label for="quantidade" class="block text-sm font-medium text-gray-700 mb-2">
+            Quantidade Atual em Estoque
+          </label>
+          <input
+            type="number"
+            id="quantidade"
+            name="quantidade"
+            value="<%= produto.quantidade %>"
+            readonly
+            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg bg-gray-50 text-gray-600 cursor-not-allowed"
+          />
+        </div>
       </div>
 
-      <div>
-        <label for="estoque_minimo" class="block text-gray-700 font-medium">Estoque Mínimo</label>
-        <input
-          type="number"
-          id="estoque_minimo"
-          name="estoque_minimo"
-          value="<%= produto.estoque_minimo %>"
-          class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-green-500"
-          required
-        />
-      </div>
-
-      <div>
-        <label for="quantidade" class="block text-gray-700 font-medium">Quantidade</label>
-        <input
-          type="number"
-          id="quantidade"
-          name="quantidade"
-          value="<%= produto.quantidade %>"
-          readonly
-          class="w-full border border-gray-300 rounded-lg p-2 bg-gray-100 cursor-not-allowed"
-          required
-        />
-      </div>
-
-      <div>
-        <label for="data_cadastro" class="block text-gray-700 font-medium">Data Cadastro</label>
-        <input
-          type="date"
-          id="data_cadastro"
-          name="data_cadastro"
-          value="<%= produto.data_cadastro.toISOString().substring(0,10) %>"
-          class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-green-500"
-          required
-        />
-      </div>
-
-      <div>
-        <label for="imagem" class="block text-gray-700 font-medium">Link da Imagem</label>
-        <input
-          type="text"
-          id="imagem"
-          name="imagem"
-          value="<%= produto.imagem %>"
-          class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-green-500"
-          required
-        />
-      </div>
-
-      <div class="pt-4 flex justify-between">
+      <div class="flex justify-end gap-4 pt-6 border-t border-gray-200 mt-8">
         <a
           href="/produtos"
-          class="px-4 py-2 rounded-lg bg-gray-300 hover:bg-gray-400 transition"
+          class="px-6 py-2.5 bg-gray-500 hover:bg-gray-600 text-white font-medium rounded-lg transition-colors duration-200"
         >
-          Voltar
+          Cancelar
         </a>
-
         <button
           type="submit"
-          class="px-6 py-2 bg-green-600 text-white font-medium rounded-lg transition"
+          class="px-6 py-2.5 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg flex items-center gap-2"
         >
           Salvar Alterações
         </button>
       </div>
-
     </form>
   </div>
 </main>

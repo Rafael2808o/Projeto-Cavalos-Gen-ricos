@@ -1,31 +1,62 @@
 <%- include('../includes/header.ejs', { titulo: 'Editar Categoria' }) %>
 
-<main class="p-4 md:p-6 bg-neutra-50 min-h-screen flex flex-col items-center justify-center">
-  <div class="bg-white rounded-xl shadow-lg p-6 w-full max-w-md border border-gray-200">
-    <h2 class="text-2xl font-semibold text-sistema-700 mb-6 text-center">Editar Categoria</h2>
+<main class="p-4 md:p-6 bg-neutra-50 min-h-screen flex items-center justify-center">
+  <div class="bg-white rounded-xl shadow-xl border border-gray-200 p-8 w-full max-w-md">
+    <h2 class="text-2xl font-bold text-sistema-700 text-center mb-8">
+      Editar Categoria
+    </h2>
 
     <% if (typeof mensagem !== 'undefined' && mensagem) { %>
-      <p class="text-red-600 mb-4"><%= mensagem %></p>
+      <div class="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm">
+        <%= mensagem %>
+      </div>
     <% } %>
 
-    <form action="/categorias/<%= categoria.id_categoria %>/editar" method="POST" class="flex flex-col gap-4">
+    <form action="/categorias/<%= categoria.id_categoria %>/editar" method="POST" class="space-y-6">
+
       <div>
-        <label for="nome_categoria" class="block text-sm font-medium text-gray-700 mb-1">Nome da categoria</label>
-        <input type="text" id="nome_categoria" name="nome_categoria" required
-               value="<%= categoria.nome_categoria %>"
-               class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-sistema-500 focus:border-sistema-500 outline-none"/>
+        <label for="nome_categoria" class="block text-sm font-medium text-gray-700 mb-2">
+          Nome da Categoria
+        </label>
+        <input
+          type="text"
+          id="nome_categoria"
+          name="nome_categoria"
+          value="<%= categoria.nome_categoria %>"
+          required
+          placeholder="Ex: Vitaminas, Minerais, Ômegas..."
+          class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sistema-500 focus:border-sistema-500 outline-none transition-shadow"
+        />
       </div>
 
       <div>
-        <label for="descricao" class="block text-sm font-medium text-gray-700 mb-1">Descrição</label>
-        <input type="text" id="descricao" name="descricao" required
-               value="<%= categoria.descricao %>"
-               class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-sistema-500 focus:border-sistema-500 outline-none"/>
+        <label for="descricao" class="block text-sm font-medium text-gray-700 mb-2">
+          Descrição
+        </label>
+        <input
+          type="text"
+          id="descricao"
+          name="descricao"
+          value="<%= categoria.descricao %>"
+          required
+          placeholder="Breve descrição da categoria"
+          class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sistema-500 focus:border-sistema-500 outline-none transition-shadow"
+        />
       </div>
 
-      <div class="flex justify-end gap-3 mt-4">
-        <a href="/categorias" class="px-4 py-2 rounded-md bg-gray-400 text-white hover:bg-gray-500 transition">Cancelar</a>
-        <button type="submit" class="px-4 py-2 rounded-md bg-green-600 text-white hover:bg-green-600 transition">Salvar</button>
+      <div class="flex justify-end gap-4 pt-4">
+        <a
+          href="/categorias"
+          class="px-5 py-2.5 bg-gray-500 hover:bg-gray-600 text-white font-medium rounded-lg transition-colors duration-200"
+        >
+          Cancelar
+        </a>
+        <button
+          type="submit"
+          class="px-5 py-2.5 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
+        >
+          Salvar Alterações
+        </button>
       </div>
     </form>
   </div>
