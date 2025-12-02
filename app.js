@@ -10,10 +10,9 @@ import produtoRotas from './routes/produtos.js'
 import usuarioRotas from './routes/usuarios.js'
 // import pgSession from 'connect-pg-simple';
 
-// =====================
-// NOVA IMPORTAÇÃO
+
 import movimentacaoRotas from './routes/movimentacao.js';
-// =====================
+
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename);
@@ -74,11 +73,8 @@ app.use('/admin', adminRotas)
 app.use('/categorias', categoriaRotas)
 app.use('/produtos', produtoRotas)
 app.use('/usuarios', usuarioRotas)
-
-// =====================
-// NOVA ROTA MOVIMENTAÇÃO
 app.use('/movimentacao', movimentacaoRotas);
-// =====================
+
 
 app.listen(3000, () =>
 console.log('Servidor rodando em http://localhost:3000')
