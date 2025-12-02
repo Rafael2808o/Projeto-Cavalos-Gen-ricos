@@ -1,22 +1,56 @@
 <%- include('../includes/header.ejs', { titulo: 'Movimentações' }) %>
 
 <style>
-    :root {
-        --verde-principal: #1a7c54;     
-        --verde-claro: #2ecc71;        
+:root {
+        --verde-principal: #1a7c54;
+        --verde-claro: #2ecc71;
         --verde-hover: #166945;
-        --dourado: #c9a547;            
+        --dourado: #c9a547;
         --cinza-fundo: #f8fafc;
     }
 
+    /* Botão verde principal (usado em "Aplicar Filtros", "Salvar", etc) */
     .btn-verde {
-        @apply bg-[var(--verde-principal)] hover:bg-[var(--verde-hover)] text-white font-semibold py-2 px-6 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105;
+        background: linear-gradient(135deg, var(--verde-principal), var(--verde-claro));
+        color: white;
+        font-weight: 600;
+        padding: 0.75rem 2rem;
+        border-radius: 12px;
+        border: none;
+        box-shadow: 0 10px 20px rgba(26, 124, 84, 0.25);
+        transition: all 0.35s ease;
+        cursor: pointer;
+        font-size: 1.1rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        position: relative;
+        overflow: hidden;
     }
 
-    .btn-verde-outline {
-        @apply border-2 border-[var(--verde-principal)] text-[var(--verde-principal)] hover:bg-[var(--verde-principal)] hover:text-white font-medium py-2 px-6 rounded-lg transition-all duration-300;
+    .btn-verde:hover {
+        background: linear-gradient(135deg, var(--verde-hover), #1a936f);
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 15px 30px rgba(26, 124, 84, 0.35);
     }
 
+    .btn-verde:active {
+        transform: translateY(-1px);
+    }
+
+    .btn-verde::before {
+        content: '';
+        position: absolute;
+        top: 0; left: -100%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3));
+        transition: 0.7s;
+    }
+
+    .btn-verde:hover::before {
+        left: 100%;
+    }
     .table-header {
         background: linear-gradient(135deg, var(--verde-principal), #159957);
     }
