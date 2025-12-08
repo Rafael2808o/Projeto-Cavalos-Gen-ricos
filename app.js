@@ -12,7 +12,7 @@ import pgSession from 'connect-pg-simple';
 
 import movimentacaoRotas from './routes/movimentacao.js';
 
-import BD from './db.js'; // Conexão com o banco
+import BD from './db.js'; 
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename);

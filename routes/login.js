@@ -24,7 +24,6 @@ router.post('/login', async (req, res) => {
                 });
             }
 
-            // Salva a sessão e garante que seja persistida antes do redirect
             req.session.idUsuario = user.id_usuario;
             req.session.nomeUsuario = user.nome;
             req.session.usuarioLogado = user.email;
