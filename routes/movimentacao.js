@@ -3,6 +3,38 @@ import BD from '../db.js';
 
 const router = express.Router();
 
+
+router.get('/mais-vendido', async (req, res) => {
+  try {
+    const query = `
+      SELECT 
+        p.id_produto,
+        p.nome,
+        p.preco,
+        SUM(m.quantidade) AS total_saida
+      FROM movimentacao_estoque m
+      JOIN produtos p ON m.id_produto = p.id_produto
+      WHERE m.tipo ILIKE '%saida%'
+      GROUP BY p.id_produto, p.nome, p.preco
+      ORDER BY total_saida DESC
+      LIMIT 1
+    `;
+
+    const result = await BD.query(query);
+
+    res.locals.produtoMaisVendido = result.rows[0] || null;
+
+  } catch (err) {
+    res.locals.produtoMaisVendido = null;
+  }
+
+  return res.redirect('/');
+});
+
+
+
+
+
 router.get('/', async (req, res) => {
   const { busca, ordenar_por, direcao } = req.query;
 
@@ -41,7 +73,8 @@ router.get('/', async (req, res) => {
       produtos: produtos.rows,
       busca: busca || '',
       ordenar_por: ordenarColuna,
-      direcao: direcaoOrdenacao
+      direcao: direcaoOrdenacao,
+      produtoMaisVendido: res.locals.produtoMaisVendido || null
     });
 
   } catch (erro) {
@@ -52,10 +85,13 @@ router.get('/', async (req, res) => {
       produtos: [],
       busca: '',
       ordenar_por: 'data_mov',
-      direcao: 'DESC'
+      direcao: 'DESC',
+      produtoMaisVendido: null
     });
   }
 });
+
+
 
 
 router.get('/criar', async (req, res) => {
@@ -73,6 +109,8 @@ router.get('/criar', async (req, res) => {
     res.redirect('/movimentacao');
   }
 });
+
+
 
 
 router.post('/registrar', async (req, res) => {
@@ -120,6 +158,8 @@ router.post('/registrar', async (req, res) => {
 });
 
 
+
+
 router.get('/editar/:id', async (req, res) => {
   const { id } = req.params;
 
@@ -147,6 +187,8 @@ router.get('/editar/:id', async (req, res) => {
     res.status(500).send('Erro ao abrir formulário de edição');
   }
 });
+
+
 
 
 router.post('/editar/:id', async (req, res) => {
@@ -197,6 +239,8 @@ router.post('/editar/:id', async (req, res) => {
 });
 
 
+
+
 router.post('/deletar/:id', async (req, res) => {
   const { id } = req.params;
 
@@ -226,5 +270,37 @@ router.post('/deletar/:id', async (req, res) => {
     res.status(500).send('Erro ao excluir movimentação');
   }
 });
+
+
+
+
+router.get('/mais-vendido-home', async (req, res) => {
+  try {
+    const query = `
+      SELECT 
+        p.id_produto,
+        p.nome,
+        p.preco,
+        SUM(m.quantidade) AS total_saida
+      FROM movimentacao_estoque m
+      JOI
+      produtos p ON m.id_produto = p.id_produto
+      WHERE m.tipo ILIKE '%saida%'
+      GROUP BY p.id_produto, p.nome, p.preco
+      ORDER BY total_saida DESC
+      LIMIT 1
+    `;
+
+    const resultado = await BD.query(query);
+
+    return res.json(resultado.rows[0] || null);
+
+  } catch (erro) {
+    console.log('Erro:', erro);
+    return res.json(null);
+  }
+});
+
+
 
 export default router;

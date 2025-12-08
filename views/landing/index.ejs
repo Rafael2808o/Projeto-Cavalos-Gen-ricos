@@ -127,58 +127,68 @@
       </p>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div
-          class="bg-white rounded-2xl shadow-lg overflow-hidden group cursor-pointer hover:shadow-2xl transition-all duration-300">
-          <div class="overflow-hidden">
-            <img
-              src="https://cdn.awsli.com.br/2500x2500/2643/2643862/produto/246956826/clenbuterol-500ml--2--6szdhiqu9c.jpg"
-              alt="Clenbuterol"
-              class=" w-full h-[100%] object-cover transition-transform duration-500 group-hover:scale-[1.08]">
-          </div>
-          <div class="p-6">
-            <h3 class="text-xl font-bold text-primary mb-2">Clenbuterol Equino</h3>
-            <p class="text-gray-600 mb-4">Melhora a performance respiratória e a oxigenação muscular durante o treino.
-            </p>
-            <div class="flex items-center justify-between">
-              <span class="text-2xl font-bold text-accent">R$ 189,90</span>
-              <span class="bg-secondary text-primary text-xs font-bold px-3 py-1 rounded-full">Mais Vendido</span>
-            </div>
-          </div>  
-        </div>
+<div class="bg-white rounded-2xl shadow-lg overflow-hidden group cursor-pointer hover:shadow-2xl transition-all duration-300">
+  <div class="overflow-hidden">
+    <img
+      src="<%= produtoMaisVendido ? produtoMaisVendido.imagem : 'https://via.placeholder.com/300' %>"
+      alt="<%= produtoMaisVendido ? produtoMaisVendido.nome : 'Produto' %>"
+      class="w-full h-[100%] object-cover transition-transform duration-500 group-hover:scale-[1.08]">
+  </div>
+  <div class="p-6">
+    <h3 class="text-xl font-bold text-primary mb-2">
+      <%= produtoMaisVendido ? produtoMaisVendido.nome : '-' %>
+    </h3>
+    <p class="text-gray-600 mb-4">
+      <%= produtoMaisVendido ? produtoMaisVendido.descricao : '-' %>
+    </p>
+    <div class="flex items-center justify-between">
+      <span class="text-2xl font-bold text-accent">
+        R$ <%= produtoMaisVendido ? produtoMaisVendido.valor_custo : '0,00' %>
+      </span>
+      <span class="bg-secondary text-primary text-xs font-bold px-3 py-1 rounded-full">
+        Mais Vendido
+      </span>
+    </div>
+  </div>
+</div>
+
+<div
+  class="bg-white rounded-2xl shadow-lg overflow-hidden group cursor-pointer hover:shadow-2xl transition-all duration-300">
+  <div class="overflow-hidden">
+    <img 
+      src="<%= produtoMaisNovo ? produtoMaisNovo.imagem : 'https://via.placeholder.com/300' %>" 
+      alt="<%= produtoMaisNovo ? produtoMaisNovo.nome : 'Produto' %>" 
+      class="w-full h-[100%] object-cover transition-transform duration-500 group-hover:scale-[1.08]">
+  </div>
+  <div class="p-6">
+    <h3 class="text-xl font-bold text-primary mb-2"><%= produtoMaisNovo ? produtoMaisNovo.nome : '-' %></h3>
+    <p class="text-gray-600 mb-4"><%= produtoMaisNovo ? produtoMaisNovo.descricao : '-' %></p>
+    <div class="flex items-center justify-between">
+      <span class="text-2xl font-bold text-accent">R$ <%= produtoMaisNovo ? produtoMaisNovo.valor_custo : '0,00' %></span>
+      <span class="bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full">Novo</span>
+    </div>
+  </div>  
+</div>
+
 
         <div
-          class="bg-white rounded-2xl shadow-lg overflow-hidden group cursor-pointer hover:shadow-2xl transition-all duration-300">
-          <div class="overflow-hidden">
-            <img src="https://http2.mlstatic.com/D_779109-MLA96897773040_112025-C.jpg" alt="Creatina Equina"
-              class="w-full h-[100%] object-cover transition-transform duration-500 group-hover:scale-[1.08]">
-          </div>
-          <div class="p-6">
-            <h3 class="text-xl font-bold text-primary mb-2">Creatina Equina Turbo</h3>
-            <p class="text-gray-600 mb-4">Suplemento de força e potência muscular para cavalos atletas.</p>
-            <div class="flex items-center justify-between">
-              <span class="text-2xl font-bold text-accent">R$ 169,90</span>
-              <span class="bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full">Novo</span>
-            </div>
-          </div>
-        </div>
+  class="bg-white rounded-2xl shadow-lg overflow-hidden group cursor-pointer hover:shadow-2xl transition-all duration-300">
+  <div class="overflow-hidden">
+    <img
+      src="<%= produtoMaisBarato ? produtoMaisBarato.imagem : 'https://via.placeholder.com/300' %>"
+      alt="<%= produtoMaisBarato ? produtoMaisBarato.nome : 'Produto' %>"
+      class="w-full h-[100%] object-cover transition-transform duration-500 group-hover:scale-[1.08]">
+  </div>
+  <div class="p-6">
+    <h3 class="text-xl font-bold text-primary mb-2"><%= produtoMaisBarato ? produtoMaisBarato.nome : '-' %></h3>
+    <p class="text-gray-600 mb-4"><%= produtoMaisBarato ? produtoMaisBarato.descricao : '-' %></p>
+    <div class="flex items-center justify-between">
+      <span class="text-2xl font-bold text-accent">R$ <%= produtoMaisBarato ? produtoMaisBarato.valor_custo : '0,00' %></span>
+      <span class="bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full">Mais Barato</span>
+    </div>
+  </div>  
+</div>
 
-        <div
-          class="bg-white rounded-2xl shadow-lg overflow-hidden group cursor-pointer hover:shadow-2xl transition-all duration-300">
-          <div class="overflow-hidden">
-            <img
-              src="https://nutrifacil.com.br/wp-content/uploads/2024/03/nutrifacil-max-horse-suplemento-mineral-proteico-para-equinos-cavalo-de-alta-performance-saude-animal.png"
-              alt="Proteína Equina"
-              class="w-full h-[100%] object-cover transition-transform duration-500 group-hover:scale-[1.08]">
-          </div>
-          <div class="p-6">
-            <h3 class="text-xl font-bold text-primary mb-2">Protein Horse Max</h3>
-            <p class="text-gray-600 mb-4">Mistura de aminoácidos essenciais para ganho de massa e recuperação muscular.
-            </p>
-            <div class="flex items-center justify-between">
-              <span class="text-2xl font-bold text-accent">R$ 149,90</span>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </section>
