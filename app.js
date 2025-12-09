@@ -117,7 +117,7 @@ const verificarAutenticacao = (req, res, next) =>{
 app.use('/admin', loginRotas) 
 app.use('/admin',verificarAutenticacao, adminRotas)
 app.use('/categorias', verificarAutenticacao, categoriaRotas)
-app.use('/produtos', verificarAutenticacao, produtoRotas)
+app.use('/produtos', produtoRotas)
 app.use('/usuarios', verificarAutenticacao, usuarioRotas)
 app.use('/movimentacao', verificarAutenticacao, movimentacaoRotas);
 

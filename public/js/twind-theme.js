@@ -1,5 +1,4 @@
-
-twind.install({
+const config = {
   theme: {
     extend: {
       fontFamily: {
@@ -18,7 +17,7 @@ twind.install({
           400: '#4ade80',
           500: '#22c55e',
           600: '#16a34a',
-          700: '#1A5D1A',   
+          700: '#1A5D1A',
           800: '#166534',
           900: '#14532d',
         },
@@ -26,7 +25,7 @@ twind.install({
         secundaria: {
           50:  '#f8fdf9',
           100: '#f0fdf4',
-          200: '#E6F3E6',   
+          200: '#E6F3E6',
           300: '#d1f3d8',
           400: '#a8e6b8',
           500: '#7fd99b',
@@ -44,7 +43,7 @@ twind.install({
           400: '#fbbf24',
           500: '#f59e0b',
           600: '#d97706',
-          700: '#F4A300',   
+          700: '#F4A300',
           800: '#92400e',
           900: '#78350f',
         },
@@ -60,9 +59,11 @@ twind.install({
           700: '#111827',
         },
       },
+
       animation: {
         fadeIn: 'fadeIn 0.8s ease-in-out',
       },
+
       keyframes: {
         fadeIn: {
           '0%': { opacity: '0' },
@@ -71,4 +72,6 @@ twind.install({
       },
     },
   },
-});
+};
+
+export default config;

@@ -3,59 +3,118 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sistema - <%= titulo %></title>
+  <title>Sistema - <%= titulo || 'Admin' %></title>
 
   <script type="module" src="/js/twind-setup.js"></script>
   <script src="https://cdn.twind.style"></script>
 </head>
 
-<body class="bg-neutral-50 min-h-screen">
+<body class="bg-gray-50 min-h-screen">
 
-  <header class="bg-gradient-to-r from-green-800 via-green-700 to-green-600 text-white shadow-lg border-b border-white/20">
+  <header class="bg-gradient-to-r from-green-800 via-green-700 to-green-600 text-white shadow-xl sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
       <div class="flex items-center justify-between h-16 lg:h-20">
 
-
-        <div class="flex items-center flex-shrink-0">
-
-          <img src="/img/F.png" alt="Logo da Empresa" class="h-20 w-auto sm:h-16">
-
-          <h1 class="ml-4 text-xl sm:text-2xl font-bold tracking-tight hidden lg:block">
-            Sistema Administrativo
-          </h1>
+        <div class="flex items-center space-x-3">
+          <img src="/img/F.png" alt="Logo" class="h-12 w-12 rounded-lg ring-2 ring-white/40">
+          <h1 class="text-xl font-bold hidden lg:block">Sistema Administrativo</h1>
         </div>
 
-        <nav class="flex items-center gap-3 sm:gap-6 text-sm lg:text-base font-medium">
-          <a href="/usuarios/"      class="hover:text-green-200 transition">Usuários</a>
-          <span class="opacity-60 hidden sm:inline">|</span>
-          <a href="/produtos/"      class="hover:text-green-200 transition">Produtos</a>
-          <span class="opacity-60 hidden sm:inline">|</span>
-          <a href="/categorias/"    class="hover:text-green-200 transition">Categorias</a>
-          <span class="opacity-60 hidden sm:inline">|</span>
-          <a href="/movimentacao/"  class="hover:text-green-200 transition">Movimentação</a>
-          <span class="opacity-60 hidden sm:inline">|</span>
-          <a href="/admin"          class="hover:text-red-300 transition font-semibold">Dashboard</a>
-          
-        </nav>
+        <button id="btnMenu" class="lg:hidden p-3 rounded-lg hover:bg-white/10 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke-width="2.2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
 
+        <nav class="hidden lg:flex items-center gap-8 text-base font-medium">
+          <a href="/usuarios/" class="hover:text-green-100 transition">Usuários</a>
+          <a href="/produtos/" class="hover:text-green-100 transition">Produtos</a>
+          <a href="/categorias/" class="hover:text-green-100 transition">Categorias</a>
+          <a href="/movimentacao/" class="hover:text-green-100 transition">Movimentação</a>
+          <a href="/admin" class="hover:text-red-200 font-bold transition">Dashboard</a>
+        </nav>
       </div>
 
       <% if (titulo) { %>
-        <div class="md:hidden pb-3 text-center">
-          <h2 class="text-lg font-semibold text-green-100">
-            <%= titulo %>
-          </h2>
-        </div>
+      <div class="md:hidden text-center py-3 border-t border-white/20">
+        <h2 class="text-lg font-semibold"><%= titulo %></h2>
+      </div>
       <% } %>
+
+      <nav id="mobileMenu"
+        class="lg:hidden bg-green-700/95 backdrop-blur-sm border-t border-white/20 overflow-hidden"
+        style="max-height: 0; transition: max-height 0.35s ease-out;">
+
+        <div class="py-5 space-y-1">
+
+          <a href="/usuarios/" class="flex items-center gap-5 px-8 py-4 hover:bg-white/10 transition text-lg font-medium">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6.75a3.75 3.75 0 11-3.75 3.75 3.75 3.75 0 013.75-3.75z M4.5 19.5a7.5 7.5 0 0115 0v1.5H4.5V19.5z" />
+            </svg>
+            <span>Usuários</span>
+          </a>
+
+          <a href="/produtos/" class="flex items-center gap-5 px-8 py-4 hover:bg-white/10 transition text-lg font-medium">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h8v8H3V3zM13 3h8v5h-8V3zM3 13h5v8H3v-8zM13 11h8v10h-8V11z" />
+            </svg>
+            <span>Produtos</span>
+          </a>
+
+          <a href="/categorias/" class="flex items-center gap-5 px-8 py-4 hover:bg-white/10 transition text-lg font-medium">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.098 19.902a1.5 1.5 0 001.5 1.5h12.804a1.5 1.5 0 001.5-1.5V6.873a1.5 1.5 0 00-.44-1.06L15.187.939A1.5 1.5 0 0014.127.5H5.598a1.5 1.5 0 00-1.5 1.5v17.902z" />
+            </svg>
+            <span>Categorias</span>
+          </a>
+
+          <a href="/movimentacao/" class="flex items-center gap-5 px-8 py-4 hover:bg-white/10 transition text-lg font-medium">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" class="w-6 h-6" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21 3 16.5m0 0L7.5 12m-4.5 4.5h15m4.5 0L21 12m0 0L16.5 7.5m4.5 4.5H6" />
+</svg>
+            <span>Movimentação</span>
+          </a>
+
+          <a href="/admin" class="flex items-center gap-5 px-8 py-4 hover:bg-white/10 transition text-lg font-medium">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5a4.5 4.5 0 014.5 4.5v3h3a1.5 1.5 0 010 3h-3v3a4.5 4.5 0 11-9 0v-3h-3a1.5 1.5 0 010-3h3v-3a4.5 4.5 0 014.5-4.5z" />
+            </svg>
+            <span>Dashboard</span>
+          </a>
+
+          <a href="/" class="flex items-center gap-5 px-8 py-4 hover:bg-white/10 transition text-lg font-medium">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7"/></svg>
+            <span>Sair</span>
+          </a>
+
+        </div>
+      </nav>
 
     </div>
   </header>
 
-
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-
   </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const btn = document.getElementById("btnMenu");
+      const menu = document.getElementById("mobileMenu");
+
+      btn.addEventListener("click", () => {
+        menu.style.maxHeight = (menu.style.maxHeight && menu.style.maxHeight !== "0px") 
+          ? "0px" 
+          : menu.scrollHeight + "px";
+      });
+
+      menu.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", () => {
+          menu.style.maxHeight = "0px";
+        });
+      });
+    });
+  </script>
 
 </body>
 </html>
