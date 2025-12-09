@@ -3,7 +3,6 @@ import BD from '../db.js';
 
 const router = express.Router();
 
-
 router.get('/mais-vendido', async (req, res) => {
   try {
     const query = `
@@ -31,69 +30,6 @@ router.get('/mais-vendido', async (req, res) => {
   return res.redirect('/');
 });
 
-
-
-
-
-router.get('/', async (req, res) => {
-  const { busca, ordenar_por, direcao } = req.query;
-
-  try {
-    const queryParams = [];
-    let query = `
-      SELECT 
-        m.id_mov,
-        m.id_produto,
-        p.nome AS produto_nome,
-        m.tipo,
-        m.quantidade,
-        COALESCE(m.observacao, '-') AS descricao,
-        TO_CHAR(m.data_mov, 'DD/MM/YYYY, HH24:MI:SS') AS data_formatada,
-        COALESCE(u.nome, 'Desconhecido') AS usuario_nome
-      FROM movimentacao_estoque m
-      JOIN produtos p ON m.id_produto = p.id_produto
-      LEFT JOIN usuarios u ON m.id_usuario = u.id_usuario
-    `;
-
-    if (busca) {
-      query += ` WHERE p.nome ILIKE $1 `;
-      queryParams.push(`%${busca}%`);
-    }
-
-    const ordenarColuna = ['data_mov','produto_nome','tipo','quantidade'].includes(ordenar_por) ? ordenar_por : 'data_mov';
-    const direcaoOrdenacao = direcao === 'ASC' ? 'ASC' : 'DESC';
-    query += ` ORDER BY ${ordenarColuna} ${direcaoOrdenacao}`;
-
-    const result = await BD.query(query, queryParams);
-    const produtos = await BD.query('SELECT id_produto, nome FROM produtos ORDER BY nome');
-
-    res.render('movimentacao/index', {
-      titulo: 'Movimentações',
-      movimentacoes: result.rows,
-      produtos: produtos.rows,
-      busca: busca || '',
-      ordenar_por: ordenarColuna,
-      direcao: direcaoOrdenacao,
-      produtoMaisVendido: res.locals.produtoMaisVendido || null
-    });
-
-  } catch (erro) {
-    console.error('Erro ao carregar movimentações:', erro);
-    res.render('movimentacao/index', {
-      titulo: 'Movimentações',
-      movimentacoes: [],
-      produtos: [],
-      busca: '',
-      ordenar_por: 'data_mov',
-      direcao: 'DESC',
-      produtoMaisVendido: null
-    });
-  }
-});
-
-
-
-
 router.get('/criar', async (req, res) => {
   try {
     const produtos = await BD.query('SELECT id_produto, nome FROM produtos ORDER BY nome');
@@ -109,9 +45,6 @@ router.get('/criar', async (req, res) => {
     res.redirect('/movimentacao');
   }
 });
-
-
-
 
 router.post('/registrar', async (req, res) => {
   const { produto_id, tipo, quantidade, descricao } = req.body;
@@ -157,9 +90,6 @@ router.post('/registrar', async (req, res) => {
   }
 });
 
-
-
-
 router.get('/editar/:id', async (req, res) => {
   const { id } = req.params;
 
@@ -187,9 +117,6 @@ router.get('/editar/:id', async (req, res) => {
     res.status(500).send('Erro ao abrir formulário de edição');
   }
 });
-
-
-
 
 router.post('/editar/:id', async (req, res) => {
   const { id } = req.params;
@@ -238,9 +165,6 @@ router.post('/editar/:id', async (req, res) => {
   }
 });
 
-
-
-
 router.post('/deletar/:id', async (req, res) => {
   const { id } = req.params;
 
@@ -271,9 +195,6 @@ router.post('/deletar/:id', async (req, res) => {
   }
 });
 
-
-
-
 router.get('/mais-vendido-home', async (req, res) => {
   try {
     const query = `
@@ -283,8 +204,7 @@ router.get('/mais-vendido-home', async (req, res) => {
         p.preco,
         SUM(m.quantidade) AS total_saida
       FROM movimentacao_estoque m
-      JOI
-      produtos p ON m.id_produto = p.id_produto
+      JOIN produtos p ON m.id_produto = p.id_produto
       WHERE m.tipo ILIKE '%saida%'
       GROUP BY p.id_produto, p.nome, p.preco
       ORDER BY total_saida DESC
@@ -301,6 +221,76 @@ router.get('/mais-vendido-home', async (req, res) => {
   }
 });
 
+router.get('/', async (req, res) => {
+  const { busca, ordenar_por, direcao, pagina } = req.query;
 
+  const paginaAtual = parseInt(pagina) || 1;
+  const limite = 10;
+  const offset = (paginaAtual - 1) * limite;
+
+  try {
+    const queryParams = [];
+    let query = `
+      SELECT 
+        m.id_mov,
+        m.id_produto,
+        p.nome AS produto_nome,
+        m.tipo,
+        m.quantidade,
+        COALESCE(m.observacao, '-') AS descricao,
+        TO_CHAR(m.data_mov, 'DD/MM/YYYY, HH24:MI:SS') AS data_formatada,
+        COALESCE(u.nome, 'Desconhecido') AS usuario_nome
+      FROM movimentacao_estoque m
+      JOIN produtos p ON m.id_produto = p.id_produto
+      LEFT JOIN usuarios u ON m.id_usuario = u.id_usuario
+    `;
+
+    if (busca) {
+      query += ` WHERE p.nome ILIKE $1 `;
+      queryParams.push(`%${busca}%`);
+    }
+
+    const ordenarColuna = ['data_mov','produto_nome','tipo','quantidade'].includes(ordenar_por) ? ordenar_por : 'data_mov';
+    const direcaoOrdenacao = direcao === 'ASC' ? 'ASC' : 'DESC';
+
+    query += ` ORDER BY ${ordenarColuna} ${direcaoOrdenacao} LIMIT $${queryParams.length + 1} OFFSET $${queryParams.length + 2}`;
+    queryParams.push(limite, offset);
+
+    let countQuery = 'SELECT COUNT(*) AS total FROM movimentacao_estoque m JOIN produtos p ON m.id_produto = p.id_produto';
+    if (busca) countQuery += ' WHERE p.nome ILIKE $1';
+    const totalResult = await BD.query(countQuery, busca ? [`%${busca}%`] : []);
+    const totalRegistros = parseInt(totalResult.rows[0].total);
+    const totalPaginas = Math.ceil(totalRegistros / limite);
+
+    const result = await BD.query(query, queryParams);
+    const produtos = await BD.query('SELECT id_produto, nome FROM produtos ORDER BY nome');
+
+    res.render('movimentacao/index', {
+      titulo: 'Movimentações',
+      movimentacoes: result.rows,
+      produtos: produtos.rows,
+      busca: busca || '',
+      ordenar_por: ordenarColuna,
+      direcao: direcaoOrdenacao,
+      paginaAtual,
+      totalPaginas,
+      produtoMaisVendido: res.locals.produtoMaisVendido || null
+    });
+
+  } catch (erro) {
+    console.error('Erro ao carregar movimentações:', erro);
+    res.render('movimentacao/index', {
+      titulo: 'Movimentações',
+      movimentacoes: [],
+      produtos: [],
+      busca: '',
+      ordenar_por: 'data_mov',
+      direcao: 'DESC',
+      paginaAtual: 1,
+      totalPaginas: 1,
+      produtoMaisVendido: null
+    });
+  }
+});
 
 export default router;

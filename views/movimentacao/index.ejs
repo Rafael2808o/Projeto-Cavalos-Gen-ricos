@@ -71,10 +71,10 @@
     }
 </style>
 
-<main class="container mx-auto px-4 py-12 bg-[var(--cinza-fundo)] min-h-screen">
+<main class="container mx-auto px-4 py-12 bg-[var(--cinza-fundo)] min-h-screen pb-24">
     <div class="max-w-7xl mx-auto">
         <h2 class="text-4xl font-bold mb-8 text-gray-800 flex items-center gap-3">
-            <span class="text-[var(--verde-principal)]">✦</span>
+            <span class="text-[var(--verde-principal)]">Diamond</span>
             Movimentações de Suplementos Equinos
         </h2>
 
@@ -128,55 +128,97 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-100">
-                        <% movimentacoes.forEach(mov => { %>
-                            <tr class="hover:bg-gray-50 transition-all duration-200">
-                                <td class="px-8 py-5 text-sm text-gray-800 font-medium"><%= mov.data_formatada %></td>
-                                <td class="px-8 py-5 text-sm font-semibold text-gray-900"><%= mov.produto_nome %></td>
-                                <td class="px-8 py-5 text-sm font-bold">
-                                    <% if (mov.tipo === 'Entrada') { %>
-                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-800">Entrada</span>
-                                    <% } else { %>
-                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-red-100 text-red-800">Saída</span>
-                                    <% } %>
-                                </td>
-                                <td class="px-8 py-5 text-sm text-gray-700"><%= mov.quantidade %></td>
-                                <td class="px-8 py-5 text-sm text-gray-600 max-w-xs truncate" title="<%= mov.descricao %>"><%= mov.descricao %></td>
-                                <td class="px-8 py-5 text-sm text-gray-500 italic"><%= mov.usuario_nome || 'Desconhecido' %></td>
-                                <td class="px-8 py-5 text-center">
-                                    <div class="flex justify-center gap-3 acoes-mobile">
-                                        <a href="/movimentacao/editar/<%= mov.id_mov %>" 
-                                           class="group bg-[var(--verde-principal)] hover:bg-[var(--verde-hover)] p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
-                                           title="Editar movimentação">
-                                            <img src="/img/edit.svg" alt="Editar" class="w-5 h-5 filter brightness-10 invert">
-                                        </a>
-                                        <form action="/movimentacao/deletar/<%= mov.id_mov %>" method="POST" 
-                                              onsubmit="return confirm('Tem certeza que deseja deletar esta movimentação?');" class="inline">
-                                            <button type="submit"
-                                                    class="group bg-red-600 hover:bg-red-700 p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
-                                                    title="Excluir movimentação">
-                                                <img src="/img/delete.svg" alt="Deletar" class="w-5 h-5 filter brightness-0 invert">
-                                            </button>
-                                        </form>
-                                    </div>
-                                </td>
+                        <% if (movimentacoes && movimentacoes.length > 0) { %>
+                            <% movimentacoes.forEach(mov => { %>
+                                <tr class="hover:bg-gray-50 transition-all duration-200">
+                                    <td class="px-8 py-5 text-sm text-gray-800 font-medium"><%= mov.data_formatada || '' %></td>
+                                    <td class="px-8 py-5 text-sm font-semibold text-gray-900"><%= mov.produto_nome || '' %></td>
+                                    <td class="px-8 py-5 text-sm font-bold">
+                                        <% if (mov.tipo === 'Entrada') { %>
+                                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-800">Entrada</span>
+                                        <% } else { %>
+                                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-red-100 text-red-800">Saída</span>
+                                        <% } %>
+                                    </td>
+                                    <td class="px-8 py-5 text-sm text-gray-700"><%= mov.quantidade || '' %></td>
+                                    <td class="px-8 py-5 text-sm text-gray-600 max-w-xs truncate" title="<%= mov.descricao || '' %>"><%= mov.descricao || '-' %></td>
+                                    <td class="px-8 py-5 text-sm text-gray-500 italic"><%= mov.usuario_nome || 'Desconhecido' %></td>
+                                    <td class="px-8 py-5 text-center">
+                                        <div class="flex justify-center gap-3 acoes-mobile">
+                                            <a href="/movimentacao/editar/<%= mov.id_mov %>" 
+                                               class="group bg-[var(--verde-principal)] hover:bg-[var(--verde-hover)] p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
+                                               title="Editar movimentação">
+                                                <img src="/img/edit.svg" alt="Editar" class="w-5 h-5 filter brightness-10 invert">
+                                            </a>
+                                            <form action="/movimentacao/deletar/<%= mov.id_mov %>" method="POST" 
+                                                  onsubmit="return confirm('Tem certeza que deseja deletar esta movimentação?');" class="inline">
+                                                <button type="submit"
+                                                        class="group bg-red-600 hover:bg-red-700 p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
+                                                        title="Excluir movimentação">
+                                                    <img src="/img/delete.svg" alt="Deletar" class="w-5 h-5 filter brightness-0 invert">
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="7" class="px-8 py-12 text-center text-gray-500">Nenhuma movimentação encontrada</td>
                             </tr>
-                        <% }) %>
+                        <% } %>
                     </tbody>
                 </table>
             </div>
+
+<% if (totalPaginas > 1) { %>
+<div class="flex justify-center mt-12">
+  <div class="inline-flex items-center gap-4 bg-white px-8 py-3 rounded-full shadow-md border border-gray-200">
+
+    <% if (paginaAtual > 1) { %>
+      <a href="?pagina=<%= paginaAtual - 1 %>&busca=<%= encodeURIComponent(busca || '') %>&ordenar_por=<%= ordenar_por || '' %>&direcao=<%= direcao || '' %>"
+         class="w-12 h-12 flex items-center justify-center rounded-full bg-green-500 text-white font-semibold text-lg hover:bg-green-600 transition-colors duration-200">
+        Previous
+      </a>
+    <% } else { %>
+      <span class="w-12 h-12 flex items-center justify-center rounded-full bg-gray-100 text-gray-300 cursor-not-allowed">
+        Previous
+      </span>
+    <% } %>
+
+    <span class="text-lg font-semibold text-gray-800 px-5">
+      <%= paginaAtual %> 
+      <span class="text-gray-400 font-normal mx-1">de</span> 
+      <span class="text-green-500"><%= totalPaginas %></span>
+    </span>
+
+    <% if (paginaAtual < totalPaginas) { %>
+      <a href="?pagina=<%= paginaAtual + 1 %>&busca=<%= encodeURIComponent(busca || '') %>&ordenar_por=<%= ordenar_por || '' %>&direcao=<%= direcao || '' %>"
+         class="w-12 h-12 flex items-center justify-center rounded-full bg-green-500 text-white font-semibold text-lg hover:bg-green-600 transition-colors duration-200">
+        Next
+      </a>
+    <% } else { %>
+      <span class="w-12 h-12 flex items-center justify-center rounded-full bg-gray-100 text-gray-300 cursor-not-allowed">
+        Next
+      </span>
+    <% } %>
+
+  </div>
+</div>
+<% } %>
+
+
         </div>
 
         <a href="/movimentacao/criar"
            class="fixed bottom-8 right-8 w-16 h-16 rounded-full flex items-center justify-center 
                   bg-gradient-to-br from-green-500 to-green-700 
                   text-white text-4xl font-extrabold 
-                  shadow-lg shadow-black/40 
-                  border-2 border-white/70
+                  shadow-2xl border-4 border-white 
                   transition-all duration-300 transform 
-                  hover:scale-110 hover:rotate-12 hover:shadow-2xl hover:shadow-green-400/60 
-                  z-50 select-none leading-none"
-           title="Adicionar Nova Movimentação">
-            <span class="drop-shadow-xl">+</span>
+                  hover:scale-110 hover:rotate-90 
+                  z-50 select-none">
+            <span class="drop-shadow-2xl">+</span>
         </a>
     </div>
 </main>
