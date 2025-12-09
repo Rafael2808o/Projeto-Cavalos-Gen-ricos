@@ -29,51 +29,62 @@
 
 <body class="bg-gray-50 text-gray-800 leading-relaxed">
 
-  <header class="fixed top-0 w-full bg-white/95 backdrop-blur-sm shadow-md z-50 transition-all duration-300">
-    <div class="container mx-auto flex justify-between items-center px-6 py-4">
-      <a href="/" class="flex items-center gap-2 text-2xl font-bold text-primary">
-        <img src="img/F.png" class="w-12">
-        <span>Cavalos Genéricos</span>
-      </a>
+<!-- ==================== HEADER 100% FUNCIONAL (ESTILO DO SEU ADMIN) ==================== -->
+<header class="fixed top-0 w-full bg-white/95 backdrop-blur-sm shadow-md z-50 transition-all duration-300">
+  <div class="container mx-auto flex justify-between items-center px-6 py-4">
 
-      <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
-        <a href="/" class="font-semibold hover:text-green-500 transition">Início</a>
-        <a href="#sobre" class="font-semibold hover:text-green-500 transition">Sobre</a>
-        <div class="relative group">
-          <button class="font-semibold flex items-center gap-1 hover:text-green-500 transition">
-            Produtos <i class="fas fa-chevron-down text-xs ml-1"></i>
-          </button>
-          <ul class="absolute top-full left-0 mt-2 w-48 bg-white rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-            <li><a href="/produtos/suplementos" class="font-semibold block px-5 py-3 hover:bg-green-500 hover:text-white rounded-t-xl">Suplementos</a></li>
-            <li><a href="#promocoes" class="font-semibold block px-5 py-3 hover:bg-green-500 hover:text-white rounded-b-xl">Promoções</a></li>
-          </ul>
-        </div>
+    <!-- Logo -->
+    <a href="/" class="flex items-center gap-2 text-2xl font-bold text-primary">
+      <img src="img/F.png" class="w-12">
+      <span>Cavalos Genéricos</span>
+    </a>
 
-        <button type="button" onclick="document.getElementById('modalContato').showModal()"
-          class="bg-green-600 text-white px-6 py-2.5 rounded-full hover:bg-green-700 transition shadow-md flex items-center gap-2 text-sm font-medium">
-          <i class="fas fa-phone"></i> Contato
+    <!-- MENU DESKTOP -->
+    <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+      <a href="/" class="font-semibold hover:text-green-500 transition">Início</a>
+      <a href="#sobre" class="font-semibold hover:text-green-500 transition">Sobre</a>
+      
+      <div class="relative group">
+        <button class="font-semibold flex items-center gap-1 hover:text-green-500 transition">
+          Produtos <i class="fas fa-chevron-down text-xs ml-1"></i>
         </button>
-        <a href="/admin/login" class="bg-green-600 text-white px-6 py-2.5 rounded-full hover:bg-green-700 transition shadow-md flex items-center gap-2 text-sm font-medium">
-          Login
-        </a>
-      </nav>
+        <ul class="absolute top-full left-0 mt-2 w-48 bg-white rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-10">
+          <li><a href="/produtos/suplementos" class="font-semibold block px-5 py-3 hover:bg-green-500 hover:text-white rounded-t-xl">Suplementos</a></li>
+          <li><a href="#promocoes" class="font-semibold block px-5 py-3 hover:bg-green-500 hover:text-white rounded-b-xl">Promoções</a></li>
+        </ul>
+      </div>
 
-      <button id="mobileMenuBtn" class="md:hidden text-green-600 text-3xl">
-        <i class="fas fa-bars"></i>
+      <button type="button" onclick="document.getElementById('modalContato').showModal()"
+        class="bg-green-600 text-white px-6 py-2.5 rounded-full hover:bg-green-700 transition shadow-md flex items-center gap-2 text-sm font-medium">
+        <i class="fas fa-phone"></i> Contato
+      </button>
+      <a href="/admin/login" class="bg-green-600 text-white px-6 py-2.5 rounded-full hover:bg-green-700 transition shadow-md text-sm font-medium">
+        Login
+      </a>
+    </nav>
+
+    <!-- BOTÃO HAMBURGER -->
+    <button id="btnMenuMobile" class="md:hidden text-green-600 text-3xl focus:outline-none z-50">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+
+  <!-- MENU MOBILE (com animação suave igual ao seu admin) -->
+  <nav id="mobileMenu" 
+       class="md:hidden bg-white shadow-2xl border-t border-gray-200 overflow-hidden"
+       style="max-height: 0; transition: max-height 0.4s ease;">
+    <div class="py-4 space-y-1">
+      <a href="/" class="block px-8 py-4 text-lg font-medium hover:bg-green-600 hover:text-white transition">Início</a>
+      <a href="#sobre" class="block px-8 py-4 text-lg font-medium hover:bg-green-600 hover:text-white transition">Sobre</a>
+      <a href="/produtos/suplementos" class="block px-8 py-4 text-lg font-medium hover:bg-green-600 hover:text-white transition">Suplementos</a>
+      <a href="#promocoes" class="block px-8 py-4 text-lg font-medium hover:bg-green-600 hover:text-white transition">Promoções</a>
+      <button onclick="document.getElementById('modalContato').showModal(); fecharMenuMobile();"
+              class="w-full text-left px-8 py-4 text-lg font-medium bg-green-600 text-white hover:bg-green-700 transition">
+        Fale Conosco
       </button>
     </div>
-
-    <div id="mobileMenu" class="hidden md:hidden bg-white shadow-lg absolute top-full left-0 w-full z-50">
-      <nav class="flex flex-col text-center font-medium text-lg">
-        <a href="/" class="py-4 border-b hover:bg-green-600 hover:text-white transition">Início</a>
-        <a href="#sobre" class="py-4 border-b hover:bg-green-600 hover:text-white transition">Sobre</a>
-        <a href="/produtos/suplementos" class="py-4 border-b hover:bg-green-600 hover:text-white transition">Suplementos</a>
-        <a href="#promocoes" class="py-4 border-b hover:bg-green-600 hover:text-white transition">Promoções</a>
-        <button onclick="document.getElementById('modalContato').showModal()"
-          class="py-4 bg-green-600 text-white hover:bg-green-700 transition">Fale Conosco</button>
-      </nav>
-    </div>
-  </header>
+  </nav>
+</header>
 
   <section id="inicio" class="bg-[linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.6)),url('https://wallpapers.com/images/featured/cavalo-correndo-yb42lz5ezrmoh668.jpg')] bg-center bg-cover bg-no-repeat h-screen flex items-center justify-center text-center text-white">
     <div class="container mx-auto px-6">
@@ -276,38 +287,64 @@
 
 
   <script>
-    document.getElementById('mobileMenuBtn').addEventListener('click', () => {
-      document.getElementById('mobileMenu').classList.toggle('hidden');
+  // MENU MOBILE COM ANIMAÇÃO SUAVE (100% FUNCIONAL)
+  document.addEventListener("DOMContentLoaded", () => {
+    const btn = document.getElementById("btnMenuMobile");
+    const menu = document.getElementById("mobileMenu");
+
+    window.fecharMenuMobile = function() {
+      menu.style.maxHeight = "0px";
+    };
+
+    btn.addEventListener("click", () => {
+      if (menu.style.maxHeight && menu.style.maxHeight !== "0px") {
+        menu.style.maxHeight = "0px";
+      } else {
+        menu.style.maxHeight = menu.scrollHeight + "px";
+      }
     });
 
+    // Fecha ao clicar em qualquer link
+    menu.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        menu.style.maxHeight = "0px";
+      });
+    });
 
-    const form = document.getElementById('formContato');
-    const btnEnviar = document.getElementById('btnEnviar');
-    const textoBotao = document.getElementById('textoBotao');
-    const loading = document.getElementById('loadingSpinner');
-    const toast = document.getElementById('toastSucesso');
+    // Fecha ao clicar fora (opcional, mas melhora UX)
+    document.addEventListener("click", (e) => {
+      if (!menu.contains(e.target) && !btn.contains(e.target)) {
+        menu.style.maxHeight = "0px";
+      }
+    });
+  });
 
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
+  // Seu formulário de contato (mantido 100% igual)
+  const form = document.getElementById('formContato');
+  const btnEnviar = document.getElementById('btnEnviar');
+  const textoBotao = document.getElementById('textoBotao');
+  const loading = document.getElementById('loadingSpinner');
+  const toast = document.getElementById('toastSucesso');
 
-      textoBotao.textContent = 'Enviando...';
-      loading.classList.remove('hidden');
-      btnEnviar.disabled = true;
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    textoBotao.textContent = 'Enviando...';
+    loading.classList.remove('hidden');
+    btnEnviar.disabled = true;
 
+    setTimeout(() => {
+      loading.classList.add('hidden');
+      toast.classList.remove('hidden');
+      document.getElementById('modalContato').close();
+      form.reset();
 
       setTimeout(() => {
-        loading.classList.add('hidden');
-        toast.classList.remove('hidden');
-        document.getElementById('modalContato').close();
-        form.reset();
-
-        setTimeout(() => {
-          textoBotao.textContent = 'Enviar Mensagem';
-          btnEnviar.disabled = false;
-          toast.classList.add('hidden');
-        }, 4000);
-      }, 2000);
-    });
-  </script>
+        textoBotao.textContent = 'Enviar Mensagem';
+        btnEnviar.disabled = false;
+        toast.classList.add('hidden');
+      }, 4000);
+    }, 2000);
+  });
+</script>
 </body>
 </html>
