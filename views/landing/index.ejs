@@ -24,6 +24,24 @@
       70% { transform: scale(0.9); }
       100% { transform: scale(1); opacity: 1; }
     }
+
+    .hero {
+  background-image:
+    linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.6)),
+    url('https://wallpapers.com/images/featured/cavalo-correndo-yb42lz5ezrmoh668.jpg');
+}
+
+
+@media (max-width: 768px) {
+  .hero {
+    background-image:
+      linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.7)),
+      url('https://i.pinimg.com/736x/20/45/17/20451773d25641663193f91cd513f45b.jpg');
+    background-position: center top;
+    min-height: 85vh;
+  }
+}
+
   </style>
 </head>
 
@@ -81,7 +99,9 @@
   </nav>
 </header>
 
-  <section id="inicio" class="bg-[linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.6)),url('https://wallpapers.com/images/featured/cavalo-correndo-yb42lz5ezrmoh668.jpg')] bg-center bg-cover bg-no-repeat h-screen flex items-center justify-center text-center text-white mt-20">
+<section
+  id="inicio"
+  class="hero bg-center bg-cover bg-no-repeat h-screen flex items-center justify-center text-center text-white mt-20">
     <div class="container mx-auto px-6">
       <h1 class="text-5xl md:text-6xl font-bold mb-4 leading-tight">
         Força e Performance <br> para <span class="text-green-400">Campeões</span>
@@ -282,6 +302,8 @@
 
 
   <script>
+
+    
   document.addEventListener("DOMContentLoaded", () => {
     const btn = document.getElementById("btnMenuMobile");
     const menu = document.getElementById("mobileMenu");
@@ -336,6 +358,8 @@
       }, 4000);
     }, 2000);
   });
+
+  
 </script>
 </body>
 </html>
